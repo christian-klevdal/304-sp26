@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Sage Introduction - 304-SP26</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        sagecell.makeSagecell({
+            inputLocation: '.sage-cell',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Mini Sage Introduction</h1>
+        <p>Math 304: Number Theory - Spring 2026</p>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <h2>Getting Started with SageMath</h2>
+            <p>This page provides interactive examples to help you get started with SageMath. Click the "Run" button below each code cell to execute the code.</p>
+        </section>
+        
+        <section id="arithmetic">
+            <h2>Arithmetic in SageMath</h2>
+            <p>SageMath can perform basic arithmetic operations:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+1 + 5
+                </script>
+            </div>
+            
+            <p>You can assign values to variables for later use:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+n = 2^8 - 3*4
+n
+                </script>
+            </div>
+            
+            <p>You can recall and print variables that you've defined:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+print(n)
+                </script>
+            </div>
+            
+            <p>SageMath can factor integers into their prime factorization:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+factor(n)
+                </script>
+            </div>
+            <p>SageMath can do a whole bunch more, but this is enough for now... </p>
+        </section>
+        
+        <section id="lists">
+            <h2>Basics of Lists</h2>
+            <p>Lists are a fundamental data structure in SageMath/Python:</p>
+            
+            <p>Creating a list:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Creating a list
+my_list = [1, 2, 3, 5, 8, 13]
+my_list
+                </script>
+            </div>
+            
+            <p>Accessing elements (indexing starts at 0):</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Accessing elements (indexing starts at 0)
+print("First element:", my_list[0])
+print("Third element:", my_list[2])
+                </script>
+            </div>
+            
+            <p>Finding the length of a list:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Length of a list
+print("Length of list:", len(my_list))
+                </script>
+            </div>
+            
+            <p>Adding elements to a list:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Adding elements
+my_list.append(21)
+print("After appending 21:", my_list)
+                </script>
+            </div>
+            
+            <p>List slicing is a very useful operation:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# List slicing
+print("First three elements:", my_list[0:3])
+                </script>
+            </div>
+            
+            <p>Here is an example of how we can easily use SageMath to find the sum of the first 10 cubes: </p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Create list of first 10 cubes
+cubes = [n^3 for n in range(1, 11)]
+print("First 10 cubes:", cubes)
+
+# Sum all the cubes
+total = sum(cubes)
+print("Sum of first 10 cubes:", total)
+                </script>
+            </div>
+        </section>
+        
+        <section id="back-link">
+            <p><a href="sagemath.html">← Back to SageMath Resources</a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p> </p>
+    </footer>
+</body>
+</html>

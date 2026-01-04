@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pythagorean Triples - 304-SP26</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        sagecell.makeSagecell({
+            inputLocation: '.sage-cell',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Pythagorean Triples And Generalizations</h1>
+        <p>Math 304: Number Theory - Spring 2026</p>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <h2>Introduction</h2>
+            <p>A Pythagorean triple is a set of three positive integers (x, y, z) such that x² + y² = z². In this page, we'll explore how to find and analyze these triples using SageMath.</p>
+        </section>
+        
+        <section id="finding-triples">
+            <h2>Finding Pythagorean Triples</h2>
+            
+            <p>Let's find all Pythagorean triples where x, y, z are positive and at most n:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+n = 100
+print(f"Searching for Pythagorean triples with x, y, z <= {n}")
+
+# Find all Pythagorean triples with x, y, z <= n
+triples = []
+for x in range(1, n+1):
+    for y in range(x, n+1):  # Start at x to avoid duplicates like (3,4,5) and (4,3,5)
+        z_squared = x^2 + y^2
+        z = sqrt(z_squared)
+        if z == floor(z) and z <= n:  # Check if z is an integer and <= n
+            triples.append((x, y, int(z)))
+
+print(f"\nFound {len(triples)} Pythagorean triples:")
+for triple in triples:
+    print(triple)
+                </script>
+            </div>
+            
+            <p>Let's verify a few of these triples:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Verify the first few triples
+print("Verifying first 5 triples:")
+for i in range(min(5, len(triples))):
+    x, y, z = triples[i]
+    print(f"{x}² + {y}² = {x^2} + {y^2} = {x^2 + y^2}, and {z}² = {z^2}")
+    print(f"  ✓ {x}² + {y}² = {z}²\n")
+                </script>
+            </div>
+        </section>
+        
+        <section id="back-link">
+            <p><a href="sagemath.html">← Back to SageMath Resources</a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p> </p>
+    </footer>
+</body>
+</html>
