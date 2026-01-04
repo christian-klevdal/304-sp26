@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Loops - 304-SP26</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        sagecell.makeSagecell({
+            inputLocation: '.sage-cell',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>For Loops in SageMath</h1>
+        <p>Math 304: Number Theory - Spring 2026</p>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <h2>Introduction to For Loops</h2>
+            <p>For loops allow you to repeat code multiple times, which is essential for solving many mathematical problems. They let you iterate through numbers, lists, or other collections.</p>
+        </section>
+        
+        <section id="basic">
+            <h2>Basic For Loop</h2>
+            <p>The simplest for loop iterates through a range of numbers:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Print numbers from 1 to 5
+for i in range(1, 6):
+    print(i)
+                </script>
+            </div>
+            
+            <p>You can also iterate through a list:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Iterate through a list
+primes = [2, 3, 5, 7, 11]
+for p in primes:
+    print(f"{p} squared is {p^2}")
+                </script>
+            </div>
+        </section>
+        
+        <section id="finding-numbers">
+            <h2>Finding Numbers with Specific Properties</h2>
+            
+            <p>Find all numbers from 1 to 50 that are divisible by 7:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Find all numbers divisible by 7
+divisible_by_7 = []
+for n in range(1, 51):
+    if n % 7 == 0:  # % is the modulo operator (remainder)
+        divisible_by_7.append(n)
+
+print("Numbers divisible by 7:", divisible_by_7)
+                </script>
+            </div>
+            
+            <p>Find all perfect squares less than 100:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Find all perfect squares less than 100
+perfect_squares = []
+for n in range(1, 100):
+    # Check if n is a perfect square
+    sqrt_n = sqrt(n)
+    if sqrt_n == floor(sqrt_n):
+        perfect_squares.append(n)
+
+print("Perfect squares less than 100:", perfect_squares)
+print(f"Found {len(perfect_squares)} perfect squares")
+                </script>
+            </div>
+            
+            <p>Find all numbers from 1 to 100 whose digits sum to 10:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Find all numbers whose digits sum to 10
+numbers_with_digit_sum_10 = []
+for n in range(1, 101):
+    # Convert to string to access digits
+    digit_sum = sum([int(d) for d in str(n)])
+    if digit_sum == 10:
+        numbers_with_digit_sum_10.append(n)
+
+print("Numbers whose digits sum to 10:", numbers_with_digit_sum_10)
+                </script>
+            </div>
+        </section>
+        
+        <section id="nested">
+            <h2>Nested For Loops</h2>
+            <p>You can put one for loop inside another. This is useful for checking pairs of numbers:</p>
+            
+            <p>Find all pairs (a, b) where 1 ≤ a, b ≤ 10 and a² + b² = 50:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Find pairs where a² + b² = 50
+pairs = []
+for a in range(1, 11):
+    for b in range(1, 11):
+        if a^2 + b^2 == 50:
+            pairs.append((a, b))
+
+print("Pairs (a, b) where a² + b² = 50:")
+for pair in pairs:
+    a, b = pair
+    print(f"  ({a}, {b}): {a}² + {b}² = {a^2} + {b^2} = 50")
+                </script>
+            </div>
+        </section>
+        
+        <section id="accumulation">
+            <h2>Using For Loops for Accumulation</h2>
+            <p>For loops are great for calculating sums and products:</p>
+            
+            <p>Calculate the sum of all odd numbers from 1 to 100:</p>
+            <div class="sage-cell">
+                <script type="text/x-sage">
+# Sum of all odd numbers from 1 to 100
+total = 0
+for n in range(1, 101):
+    if n % 2 == 1:  # Check if odd
+        total += n
+
+print(f"Sum of odd numbers from 1 to 100: {total}")
+
+# Verify with formula: sum of first n odd numbers = n²
+# There are 50 odd numbers from 1 to 100
+print(f"Formula check: 50² = {50^2}")
+                </script>
+            </div>
+            
+        </section>
+        
+        <section id="back-link">
+            <p><a href="sagemath.html">← Back to SageMath Resources</a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p> </p>
+    </footer>
+</body>
+</html>
