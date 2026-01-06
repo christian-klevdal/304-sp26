@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule - 304-SP26</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #003366;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .week-header {
+            background-color: #e6f2ff;
+            font-weight: bold;
+        }
+        
+        .spring-break {
+            background-color: #fff3cd;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .reading {
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Class Schedule</h1>
+        <p>Math 304: Number Theory - Spring 2026</p>
+    </header>
+    
+    <main>
+        <section id="schedule">
+            <h2>Weekly Schedule</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Dates</th>
+                        <th>Topics</th>
+                        <th>Reading</th>
+                        <th>Problem Sets (Due Friday 5pm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Week 1</td>
+                        <td>Jan 21, 23</td>
+                        <td>
+                            Introduction to number theory: Pythagorean triples, prime numbers, Diophantine equations. Cryptography and computation in Sage.
+                        </td>
+                        <td>Chapter 2 (optional) <em>[Silverman]</em></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Week 2</td>
+                        <td>Jan 28, 30</td>
+                        <td>
+                            Greatest common divisors, the Euclidean algorithm and linear Diophantine equations.
+                        </td>
+                        <td>Chapters 5, 6 <em>[Silverman]</em></td>
+                        <td>Problem Set 1</td>
+                    </tr>
+                    <tr>
+                        <td>Week 3</td>
+                        <td>Feb 4, 6</td>
+                        <td>
+                            Introduction to proofs: direct proof, contradiction and induction.
+                        </td>
+                        <td>TBD</td>
+                        <td>Problem Set 2</td>
+                    </tr>
+                    <tr>
+                        <td>Week 4</td>
+                        <td>Feb 11, 13</td>
+                        <td>
+                            Primes and the fundamental theorem of arithmetic.
+                        </td>
+                        <td>Chapter 12 up to Theorem 12.1, Chapter 7 <em>[Silverman]</em></td>
+                        <td>Problem Set 3</td>
+                    </tr>
+                    <tr>
+                        <td>Week 5</td>
+                        <td>Feb 18, 20</td>
+                        <td>
+                            Revisiting Pythagorean triples, introduction to congruences and solving congruence equations. <strong>Midterm 1</strong>
+                        </td>
+                        <td>Chapter 8 <em>[Silverman]</em></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Week 6</td>
+                        <td>Feb 25, 27</td>
+                        <td>
+                            More on congruences: powers, Fermat's little theorem, Euler's theorem, the phi function and the Chinese remainder theorem.
+                        </td>
+                        <td>Chapters 9, 10, 11 <em>[Silverman]</em></td>
+                        <td>Problem Set 4</td>
+                    </tr>
+                    <tr>
+                        <td>Week 7</td>
+                        <td>Mar 3, 5</td>
+                        <td>
+                            <strong>(Remote lectures)</strong> Application of number theory to cryptography: RSA algorithm.
+                        </td>
+                        <td>Chapters 17, 18 <em>[Silverman]</em></td>
+                        <td>Problem Set 5</td>
+                    </tr>
+                    <tr>
+                        <td>Week 8</td>
+                        <td>Mar 10, 12</td>
+                        <td>
+                            Implementation of RSA. More on cryptography and primality testing.
+                        </td>
+                        <td>Chapter 19 <em>[Silverman]</em></td>
+                        <td>Problem Set 6</td>
+                    </tr>
+                    <tr class="spring-break">
+                        <td colspan="5">Spring Break (Mar 16 – 20)</td>
+                    </tr>
+                    <tr>
+                        <td>Week 9</td>
+                        <td>Mar 24, 26</td>
+                        <td>
+                            Squares modulo p.
+                        </td>
+                        <td>TBD</td>
+                        <td>Problem Set 7</td>
+                    </tr>
+                    <tr>
+                        <td>Week 10</td>
+                        <td>Mar 31, Apr 2</td>
+                        <td>
+                            Quadratic reciprocity. <strong>Midterm 2</strong>
+                        </td>
+                        <td>TBD</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Week 11</td>
+                        <td>Apr 7, 9</td>
+                        <td>
+                            Primitive roots.
+                        </td>
+                        <td>Chapters 28, 29 <em>[Silverman]</em></td>
+                        <td>Problem Set 8</td>
+                    </tr>
+                    <tr>
+                        <td>Week 12</td>
+                        <td>Apr 14, 16</td>
+                        <td>
+                            Application to cryptography: Diffie-Hellman.
+                        </td>
+                        <td>TBD</td>
+                        <td>Problem Set 9</td>
+                    </tr>
+                    <tr>
+                        <td>Week 13</td>
+                        <td>Apr 21, 23</td>
+                        <td>
+                            Other topics (possibly Pell's equations, continued fractions, irrational numbers).
+                        </td>
+                        <td>TBD</td>
+                        <td>Problem Set 10</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="back-link">
+            <p><a href="index.html">← Back to Course Home</a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p> </p>
+    </footer>
+</body>
+</html>
