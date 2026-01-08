@@ -119,7 +119,7 @@ def convert_notebook_to_html(notebook_path, output_path=None):
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
-    
+    <style> body \u007b margin: 30px;\u007d </style>
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
     
