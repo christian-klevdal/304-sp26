@@ -25,6 +25,30 @@ https://christian-klevdal.github.io/304-sp26/
   - **pythagorean-triples.html** - Exploring Pythagorean triples with SageMath
 - **style.css** - Stylesheet for the website
 
+## Lecture Note Workflow
+
+Lecture notes are created using Jupyter notebooks with SageMath code cells, then converted to interactive HTML pages. The workflow is stored in the `lecture-notes/` folder:
+
+1. **Create Content**: Write lecture notes in a Jupyter notebook (`.ipynb`) with:
+   - Markdown cells for text, definitions, theorems (with LaTeX math support)
+   - SageMath code cells for computational examples
+
+2. **Review**: Open the notebook in SageMath to test code cells and verify mathematical content
+
+3. **Convert to HTML**: Use the `convert_to_html.py` script to generate an interactive HTML page:
+   ```bash
+   cd lecture-notes
+   python3 convert_to_html.py notebook-name.ipynb
+   ```
+   This creates an HTML file with:
+   - MathJax for rendering LaTeX mathematics
+   - Embedded SageCells that allow interactive code execution
+   - Proper CSS styling
+
+4. **Publish**: Add a link to the new HTML file in `lecture-notes.html`
+
+See `lecture-notes/lecture-note-workflow.ipynb` for detailed formatting guidelines and instructions.
+
 ## Technologies Used
 
 - HTML5/CSS3

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow for Lecture Notes</title>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        sagecell.makeSagecell({
+            inputLocation: '.sage-cell',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Workflow for Lecture Notes</h1>
+<p>This document outlines the complete workflow for creating, organizing, and publishing lecture notes.</p>
+<p>---</p>
+<h4>1. Content Population</h4>
+<p>Use the chat titled <strong>lecture-content</strong> to have GPT-4o populate content based on the topics for the day. Input your instructions via a markdown cell.</p>
+<p><strong>Example instructions:</strong></p>
+<p>> Add the following content to the jupyter notebook about divisibility and gcds:
+> 
+> - <strong>Markdown cell</strong>: Definition of divisibility, quotient, remainder of division of integers. Examples.
+> - <strong>SageMath cell</strong>: Examples using SageMath.
+> - <strong>Markdown cell</strong>: Lemma: a divides b if and only if b%a = 0. Give the proof.</p>
+<p>---</p>
+<h4>2. Reviewing Content</h4>
+<ul>
+<li>Go back through and review for mathematical errors and clearer formatting. This can be done in Visual Studio if you want to use LLMs. </li>
+<li>Check that SageMath cells run and give correct answers. <strong>You need to open the Jupyter notebook using the SageMath application to use the kernel</strong>. </li>
+<li>Make any necessary edits</li>
+</ul>
+<p>Once you are done with edits and happy with the final product, move onto the next step.</p>
+<p>---</p>
+<h4>3. Finalize as HTML Page</h4>
+<p>Use the <code>convert_to_html.py</code> script to convert the notebook to an interactive HTML page with embedded SageCells:</p>
+<p>``<code>bash
+python3 convert_to_html.py notebook-name.ipynb
+</code>``</p>
+<p>This creates an HTML file with:
+<ul>
+<li><strong>MathJax</strong> for rendering TeX/LaTeX math</li>
+<li><strong>Embedded SageCells</strong> that allow visitors to run code interactively</li>
+<li><strong>CSS styling</strong> for proper formatting</li>
+</ul></p>
+<p>Review the HTML output in a browser to ensure everything renders correctly.</p>
+<p>---</p>
+<h4>4. Add to Website</h4>
+<p>Add the HTML page to the lecture notes tab in the website.</p>
+</div>
+
+<div class="markdown-cell">
+<h1>Formatting Guidelines for Lecture Notes</h1>
+<p>When creating lecture notes, follow these formatting guidelines:</p>
+<h3>Creating headers</h3>
+<p>The title for a document can use the big header \#</p>
+<p>Sections within the document can use the smaller header \#\#\# and subsections can use \#\#\#\#</p>
+<h3>Special Environments</h3>
+<ol>
+<li><strong>Lemma, Theorem, Proposition, or Exercise</strong>:</li>
+</ol>
+<ul>
+<li>Use HTML to format these environments.</li>
+<li>Include the title (e.g., "Lemma", "Theorem") in a slightly larger font, with a line above it for separation.  </li>
+<li>Below the title, include the body with the statement of the Lemma, Theorem, etc.</li>
+</ul>
+<p>Example:</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem</p>
+    <p>This is the statement of the theorem.</p>
+</div>
+<ol>
+<li><strong>Proofs</strong></li>
+</ol>
+<p>Format proofs like the following. 
+<div class="proof">
+     <p><i>Proof:</i> This is the proof content. <span style="float: right;">□</span></p>
+</div></p>
+</div>
+
+<div class="markdown-cell">
+<h2>Setup Instructions</h2>
+<p>Before using the conversion script, install the required Python packages:</p>
+<p>``<code>bash
+pip install nbformat markdown
+</code>`<code></p>
+<p>These packages are needed to:
+<ul>
+<li></code>nbformat<code>: Read Jupyter notebook files</li>
+<li></code>markdown`: Convert markdown cells to HTML</li>
+</ul></p>
+</div>
+
+<div class="markdown-cell">
+<h2>Usage Example</h2>
+<p>To convert a notebook to HTML:</p>
+<p>``<code>bash
+python convert_to_html.py divisibility-and-gcd.ipynb
+</code>`<code></p>
+<p>This will create </code>divisibility-and-gcd.html<code> in the same directory.</p>
+<p>You can also specify a custom output filename:</p>
+</code>`<code>bash
+python convert_to_html.py divisibility-and-gcd.ipynb output/my-lecture.html
+</code>``
+</div>
+
+<div class="markdown-cell">
+<h2>How It Works</h2>
+<p>The conversion script:</p>
+<ol>
+<li><strong>Reads the notebook</strong> using <code>nbformat</code></li>
+<li><strong>Processes markdown cells</strong>: Converts markdown to HTML, preserving TeX math notation for MathJax</li>
+<li><strong>Processes code cells</strong>: Wraps them in <code><script type="text/x-sage"></code> tags for SageCell</li>
+<li><strong>Adds necessary headers</strong>:</li>
+</ol>
+   - SageCell JavaScript from <code>https://sagecell.sagemath.org/</code>
+   - MathJax for rendering LaTeX math ($...$ for inline, $$...$$ for display)
+   - CSS styling for better appearance
+<ol>
+<li><strong>Outputs a single HTML file</strong> that can be opened in any browser</li>
+</ol>
+<p>The resulting HTML page:
+<ul>
+<li>Renders all TeX/LaTeX mathematics beautifully</li>
+<li>Provides interactive "Run" buttons for each code cell</li>
+<li>Executes SageMath code in the browser without requiring local installation</li>
+<li>Is self-contained and can be hosted on any web server</li>
+</ul></p>
+</div>
+
+<div class="markdown-cell">
+
+</div>
+
+</body>
+</html>

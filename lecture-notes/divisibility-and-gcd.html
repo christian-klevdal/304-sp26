@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility and Greatest Common Divisors</title>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        sagecell.makeSagecell({
+            inputLocation: '.sage-cell',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Divisibility and Greatest Common Divisors</h1>
+<p><strong>Math 304: Number Theory - Spring 2026</strong></p>
+<p>This notebook explores the fundamental concepts of divisibility and greatest common divisors in the integers.</p>
+</div>
+
+<div class="markdown-cell">
+<h2>1. Divisibility</h2>
+<h3>Definition (Formal)</h3>
+<p>Let $n$ and $m$ be integers with $n \neq 0$. We say that <strong>$n$ divides $m$</strong>, written $n \mid m$, if there exists an integer $k$ such that</p>
+$$m = nk$$
+<p>We also say that $n$ is a <strong>divisor</strong> of $m$, or that $m$ is a <strong>multiple</strong> of $n$, or that $m$ is <strong>divisible by</strong> $n$.</p>
+<p>If $n$ does not divide $m$, we write $n \nmid m$.</p>
+<h3>Definition (Informal)</h3>
+<p>Informally, $n$ divides $m$ means that when you divide $m$ by $n$, you get an integer with no remainder. In other words, $m$ can be evenly split into groups of size $n$.</p>
+<h3>Examples</h3>
+<ol>
+<li>$3 \mid 12$ because $12 = 3 \cdot 4$</li>
+<li>$5 \mid 35$ because $35 = 5 \cdot 7$</li>
+<li>$7 \nmid 30$ because there is no integer $k$ such that $30 = 7k$ (we have $30 = 7 \cdot 4 + 2$)</li>
+<li>$1 \mid n$ for any integer $n$ because $n = 1 \cdot n$</li>
+<li>$n \mid 0$ for any nonzero integer $n$ because $0 = n \cdot 0$</li>
+<li>$(-3) \mid 15$ because $15 = (-3) \cdot (-5)$</li>
+</ol>
+</div>
+
+<div class="markdown-cell">
+<h3>Testing Divisibility with SageMath</h3>
+<p>We can check divisibility in SageMath using the modulo operator <code>%</code> or the <code>divides()</code> method:</p>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Method: Using the divides() method in SageMath
+
+print("Does 3 divide 12?", 3.divides(12))
+print("Does 5 divide 35?", 5.divides(35))
+print("Does 7 divide 30?", 7.divides(30))
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Finding all positive divisors of a number
+n = 60
+divisors = [d for d in range(1, n+1) if n%d == 0]
+print(f"Positive divisors of {n}: {divisors}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h1>Division in the Integers</h1>
+<p>If $a, b$ are integers with $b \neq 0$, there are <em>unique</em> integers $q, r$ such that:</p>
+<ol>
+<li>$a = bq + r$</li>
+<li>$0 \leq r < |b|$</li>
+</ol>
+<p>The $q$ is called the <strong>quotient</strong> of $a$ by $b$ (in SageMath: <code>a // b</code>), and $r$ is the <strong>remainder</strong> of $a$ divided by $b$. The remainder is also written as $a \mod b$ (in SageMath: <code>a % b</code>).</p>
+<h3>Examples</h3>
+<ol>
+<li>$10 = 3 \cdot 3 + 1$. Dividing $10$ by $3$ gives quotient $3$ and remainder $1$.</li>
+<li>$-10 = (-3) \cdot 4 + 2$. Dividing $-10$ by $4$ gives quotient $-3$ and remainder $2$.</li>
+<li>$25 = 7 \cdot 3 + 4$. Dividing $25$ by $7$ gives quotient $3$ and remainder $4$.</li>
+</ol>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Examples of division in SageMath
+
+# Example 1: Quotient and remainder of 10 divided by 3
+q1, r1 = 10 // 3, 10 % 3
+print(f"10 divided by 3: quotient = {q1}, remainder = {r1}")
+
+# Example 2: Quotient and remainder of -10 divided by 4
+q2, r2 = -10 // 4, -10 % 4
+print(f"-10 divided by 4: quotient = {q2}, remainder = {r2}")
+
+# Example 3: Quotient and remainder of 25 divided by 7
+q3, r3 = 25 // 7, 25 % 7
+print(f"25 divided by 7: quotient = {q3}, remainder = {r3}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>The following lemma is mostly an exercise in playing with the definitions given so far.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Lemma</p>
+    <p>Let $a, b$ be integers such that $b \neq 0$. Show that $a \mid b$ if and only if $b \mod a = 0$.</p>
+</div>
+<div class="proof">
+    <p><i>Proof:</i> Suppose $a \mid b$. Then, by definition, there exists an integer $k$ such that $b = ak = ak + 0$. This implies $b \mod a = 0$. Conversely, suppose $b \mod a = 0$. Then $b = a \cdot q + 0$ for some integer $q$, which implies $a \mid b$. <span style="float: right;">□</span></p>
+</div>
+<p>From a coding point of view, this lemma says that <code>a.divides(b)</code> is the same thing as <code>b%a == 0</code>.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Properties of Divisibility</h3>
+<p>Let $a, b, c$ be integers. Then:</p>
+<ol>
+<li><strong>Transitivity</strong>: If $a \mid b$ and $b \mid c$, then $a \mid c$</li>
+<li><strong>Linear combination</strong>: If $a \mid b$ and $a \mid c$, then $a \mid (bx + cy)$ for any integers $x, y$</li>
+<li><strong>Reflexivity</strong>: $a \mid a$ for any nonzero integer $a$</li>
+<li>If $a \mid b$ and $b \neq 0$, then $|a| \leq |b|$</li>
+</ol>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Example: Linear combination property
+# If 6 divides 18 and 6 divides 24, then 6 divides any linear combination
+
+a = 6
+b = 18
+c = 24
+
+print(f"{a} divides {b}:", a.divides(b))
+print(f"{a} divides {c}:", a.divides(c))
+
+# Try some linear combinations
+x, y = 4, -5
+linear_combo = b*x + c*y
+print(f"\nLinear combination: {b}*{x} + {c}*{y} = {linear_combo}")
+print(f"{a} divides {linear_combo}:", a.divides(linear_combo))
+</script>
+</div>
+
+<div class="markdown-cell">
+<h2>2. Greatest Common Divisor (GCD)</h2>
+<h3>Definition</h3>
+<p>Let $a$ and $b$ be integers, not both zero. The <strong>greatest common divisor</strong> of $a$ and $b$, denoted $\gcd(a,b)$ or $(a,b)$, is the largest positive integer that divides both $a$ and $b$.</p>
+<p>More formally, $d = \gcd(a,b)$ if:
+<ol>
+<li>$d \mid a$ and $d \mid b$ (i.e., $d$ is a common divisor)</li>
+<li>If $c \mid a$ and $c \mid b$, then $c \mid d$ (i.e., $d$ is divisible by every common divisor)</li>
+</ol></p>
+<p>Equivalently, $d = \gcd(a,b)$ is the largest integer such that $d \mid a$ and $d \mid b$.</p>
+<h3>GCD of More Than Two Integers</h3>
+<p>For integers $a_1, a_2, \ldots, a_n$ (not all zero), we define</p>
+$$\gcd(a_1, a_2, \ldots, a_n)$$
+<p>to be the largest positive integer that divides all of $a_1, a_2, \ldots, a_n$.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Examples</h3>
+<ol>
+<li>$\gcd(12, 18) = 6$ because the common divisors of 12 and 18 are $\{1, 2, 3, 6\}$, and 6 is the largest.</li>
+</ol>
+<ol>
+<li>$\gcd(25, 35) = 5$</li>
+</ol>
+<ol>
+<li>$\gcd(17, 19) = 1$ (17 and 19 are <strong>relatively prime</strong> or <strong>coprime</strong>)</li>
+</ol>
+<ol>
+<li>$\gcd(0, 5) = 5$ because every integer divides 0, so the common divisors of 0 and 5 are exactly the divisors of 5.</li>
+</ol>
+<ol>
+<li>$\gcd(12, 18, 24) = 6$</li>
+</ol>
+<ol>
+<li>$\gcd(-12, 18) = 6$ (the GCD is always positive)</li>
+</ol>
+</div>
+
+<div class="markdown-cell">
+<h3>Computing GCD with SageMath</h3>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Using the gcd() function
+
+print("gcd(12, 18) =", gcd(12, 18))
+print("gcd(25, 35) =", gcd(25, 35))
+print("gcd(17, 19) =", gcd(17, 19))
+print("gcd(0, 5) =", gcd(0, 5))
+print("gcd(-12, 18) =", gcd(-12, 18))
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# GCD of multiple numbers
+
+print("gcd(12, 18, 24) =", gcd([12, 18, 24]))
+print("gcd(30, 45, 60, 75) =", gcd([30, 45, 60, 75]))
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Finding all common divisors of two numbers
+
+a = 48
+b = 60
+
+# Find all divisors of a
+divisors_a = [d for d in range(1, a+1) if a % d == 0]
+# Find all divisors of b
+divisors_b = [d for d in range(1, b+1) if b % d == 0]
+# Find common divisors
+common_divisors = [d for d in divisors_a if d in divisors_b]
+
+print(f"Divisors of {a}: {divisors_a}")
+print(f"Divisors of {b}: {divisors_b}")
+print(f"Common divisors: {common_divisors}")
+print(f"Greatest common divisor: {max(common_divisors)}")
+print(f"\nVerification using gcd(): gcd({a}, {b}) = {gcd(a, b)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Properties of GCD</h3>
+<p>Let $a, b, c$ be integers. Then:</p>
+<ol>
+<li>$\gcd(a, b) = \gcd(b, a)$ (commutativity)</li>
+<li>$\gcd(a, b) = \gcd(|a|, |b|)$ (GCD depends only on absolute values)</li>
+<li>$\gcd(a, 0) = |a|$ for $a \neq 0$</li>
+<li>$\gcd(a, 1) = 1$ for any integer $a$</li>
+<li>If $d = \gcd(a, b)$, then $\gcd(a/d, b/d) = 1$</li>
+<li>$\gcd(ca, cb) = |c| \cdot \gcd(a, b)$ for $c \neq 0$</li>
+</ol>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Verifying property 6: gcd(ca, cb) = |c| * gcd(a, b)
+
+a = 12
+b = 18
+c = 5
+
+print(f"gcd({a}, {b}) = {gcd(a, b)}")
+print(f"gcd({c}*{a}, {c}*{b}) = gcd({c*a}, {c*b}) = {gcd(c*a, c*b)}")
+print(f"|{c}| * gcd({a}, {b}) = {abs(c) * gcd(a, b)}")
+print(f"\nProperty verified: {gcd(c*a, c*b)} = {abs(c) * gcd(a, b)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Relatively Prime Integers</h3>
+<p><strong>Definition</strong>: Two integers $a$ and $b$ are called <strong>relatively prime</strong> or <strong>coprime</strong> if $\gcd(a, b) = 1$.</p>
+<p><strong>Examples</strong>:
+<ul>
+<li>15 and 28 are relatively prime: $\gcd(15, 28) = 1$</li>
+<li>9 and 16 are relatively prime: $\gcd(9, 16) = 1$</li>
+<li>12 and 18 are NOT relatively prime: $\gcd(12, 18) = 6$</li>
+</ul></p>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Finding pairs of relatively prime numbers
+
+n = 20
+print(f"Pairs of relatively prime numbers between 1 and {n}:\n")
+
+for a in range(1, n+1):
+    coprime_with_a = [b for b in range(a+1, n+1) if gcd(a, b) == 1]
+    if coprime_with_a:
+        print(f"{a}: {coprime_with_a}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h2>3. Practice Problems</h2>
+<p>Use SageMath to solve the following problems:</p>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Problem 1: Find gcd(123456, 789012)
+
+result = gcd(123456, 789012)
+print(f"gcd(123456, 789012) = {result}")
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Problem 2: Find all integers n with 1 ≤ n ≤ 30 such that gcd(n, 30) = 1
+
+coprime_to_30 = [n for n in range(1, 31) if gcd(n, 30) == 1]
+print(f"Integers coprime to 30: {coprime_to_30}")
+print(f"Count: {len(coprime_to_30)}")
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Problem 3: Find gcd(2^10 - 1, 2^15 - 1)
+
+a = 2^10 - 1
+b = 2^15 - 1
+print(f"2^10 - 1 = {a}")
+print(f"2^15 - 1 = {b}")
+print(f"gcd({a}, {b}) = {gcd(a, b)}")
+</script>
+</div>
+
+</body>
+</html>
