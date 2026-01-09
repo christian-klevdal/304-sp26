@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithms for finding the GCD</title>
+    <style> body { margin: 60px;} </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        sagecell.makeSagecell({
+            inputLocation: '.sage-cell',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h2>Algorithms for finding the GCD</h2>
+<h3>Listing All Divisors</h3>
+To find the greatest common divisor (GCD) of two numbers, one naive method is to list all divisors of each number and find the largest common divisor. For example:
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Listing all divisors of two numbers
+def divisors(n):
+    return [i for i in range(1, n + 1) if n % i == 0]
+
+a = 48
+b = 18
+common_divisors = set(divisors(a)) & set(divisors(b))
+print(common_divisors)
+gcd = max(common_divisors)
+print(f"GCD of {a} and {b} is {gcd}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Prime Factorizations</h3>
+Another naive method is to find the prime factorizations of the two numbers. For example:
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+a = 48
+b = 36
+factor(a), factor(b)
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>The gcd is computed as $2^2\cdot 3 = 12$.</p>
+</div>
+
+<div class="markdown-cell">
+<h2>The Euclidean Algorithm</h2>
+The Euclidean algorithm is another  method for finding the GCD. It is based on the principle that the GCD of two numbers also divides their difference. The algorithm can be described as follows:
+<ol>
+<li>Divide the larger number by the smaller number and take the remainder.</li>
+<li>Replace the larger number with the smaller number and the smaller number with the remainder.</li>
+<li>Repeat until the remainder is zero. The last non-zero remainder is the GCD.</li>
+</ol>
+<h3>Example</h3>
+Find the GCD of 48 and 18 using the Euclidean algorithm.
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+def euclidean_gcd(a, b):
+# Try to write some code that computes the gcd! You will need to know some stuff about functions
+</script>
+</div>
+
+<div class="markdown-cell">
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem</p>
+    <p>The Euclidean algorithm terminates in the GCD of two integers a and b after a finite number of steps.</p>
+</div>
+<h2>Comparing Runtime: Factorization vs Euclidean Algorithm</h2>
+The following code compares the runtime of the naive factorization method and the Euclidean algorithm for large integers:
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+n = 901428039487 
+m = 5647721113483
+gcd(n,m)
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+factor(n)
+</script>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+factor(m)
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>The above numbers are small enough that factorization and the Euclidean algorithm both run in about the same time. Try playing around with bigger numbers and see which method is faster in general!</p>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+
+</script>
+</div>
+
+</body>
+</html>
