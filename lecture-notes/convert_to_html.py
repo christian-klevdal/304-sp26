@@ -28,6 +28,8 @@ def markdown_to_html(markdown_text):
     # Use negative lookbehind/lookahead to avoid matching $ signs
     html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html)
     html = re.sub(r'\*(.+?)\*', r'<em>\1</em>', html)
+    # Also support underscore-based italics
+    html = re.sub(r'\b_(.+?)_\b', r'<em>\1</em>', html)
     
     # Convert inline code (but preserve LaTeX)
     html = re.sub(r'`([^`]+)`', r'<code>\1</code>', html)
@@ -40,8 +42,10 @@ def markdown_to_html(markdown_text):
     for line in lines:
         # Ordered list
         if re.match(r'^\d+\.\s+', line):
-            if not in_list:
-                result_lines.append('<ol>')
+            if in_list != 'ol':
+                if in_list:
+                    result_lines.append(f'</{in_list}>')
+                result_lines.append('<ol class="indented-list">')
                 in_list = 'ol'
             item = re.sub(r'^\d+\.\s+', '', line)
             result_lines.append(f'<li>{item}</li>')
@@ -50,7 +54,7 @@ def markdown_to_html(markdown_text):
             if in_list != 'ul':
                 if in_list:
                     result_lines.append(f'</{in_list}>')
-                result_lines.append('<ul>')
+                result_lines.append('<ul class="indented-list">')
                 in_list = 'ul'
             item = re.sub(r'^[-*]\s+', '', line)
             result_lines.append(f'<li>{item}</li>')
@@ -74,8 +78,8 @@ def markdown_to_html(markdown_text):
         para = para.strip()
         if para:
             # Don't wrap headers, lists, or HTML tags in <p>
-            if not (para.startswith('<h') or para.startswith('<ol>') or 
-                    para.startswith('<ul>') or para.startswith('<li>') or
+            if not (para.startswith('<h') or para.startswith('<ol') or 
+                    para.startswith('<ul') or para.startswith('<li>') or
                     para.startswith('</') or para.startswith('<div')):
                 # Check if it's a display math block
                 if para.startswith('$$') or para.endswith('$$'):
@@ -153,6 +157,21 @@ def convert_notebook_to_html(notebook_path, output_path=None):
         }}
         .sage-cell {{
             margin: 20px 0;
+        }}
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {{
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }}
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {{
+            margin-top: 20px;
         }}
     </style>
 </head>

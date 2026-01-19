@@ -39,6 +39,21 @@
         .sage-cell {
             margin: 20px 0;
         }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +98,7 @@ factor(a), factor(b)
 <div class="markdown-cell">
 <h2>The Euclidean Algorithm</h2>
 The Euclidean algorithm is another  method for finding the GCD. It is based on the principle that the GCD of two numbers also divides their difference. The algorithm can be described as follows:
-<ol>
+<ol class="indented-list">
 <li>Divide the larger number by the smaller number and take the remainder.</li>
 <li>Replace the larger number with the smaller number and the smaller number with the remainder.</li>
 <li>Repeat until the remainder is zero. The last non-zero remainder is the GCD.</li>

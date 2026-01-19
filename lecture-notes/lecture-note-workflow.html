@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workflow for Lecture Notes</title>
-    <style> body { margin: 30px;} </style>
+    <style> body { margin: 60px;} </style>
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
     
@@ -39,6 +39,21 @@
         .sage-cell {
             margin: 20px 0;
         }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -56,7 +71,7 @@
 > - <strong>Markdown cell</strong>: Lemma: a divides b if and only if b%a = 0. Give the proof.</p>
 <p>---</p>
 <h4>2. Reviewing Content</h4>
-<ul>
+<ul class="indented-list">
 <li>Go back through and review for mathematical errors and clearer formatting. This can be done in Visual Studio if you want to use LLMs. </li>
 <li>Check that SageMath cells run and give correct answers. <strong>You need to open the Jupyter notebook using the SageMath application to use the kernel</strong>. </li>
 <li>Make any necessary edits</li>
@@ -69,7 +84,7 @@
 python3 convert_to_html.py notebook-name.ipynb
 </code>``</p>
 <p>This creates an HTML file with:
-<ul>
+<ul class="indented-list">
 <li><strong>MathJax</strong> for rendering TeX/LaTeX math</li>
 <li><strong>Embedded SageCells</strong> that allow visitors to run code interactively</li>
 <li><strong>CSS styling</strong> for proper formatting</li>
@@ -87,10 +102,10 @@ python3 convert_to_html.py notebook-name.ipynb
 <p>The title for a document can use the big header \#</p>
 <p>Sections within the document can use the smaller header \#\#\# and subsections can use \#\#\#\#</p>
 <h3>Special Environments</h3>
-<ol>
+<ol class="indented-list">
 <li><strong>Lemma, Theorem, Proposition, or Exercise</strong>:</li>
 </ol>
-<ul>
+<ul class="indented-list">
 <li>Use HTML to format these environments.</li>
 <li>Include the title (e.g., "Lemma", "Theorem") in a slightly larger font, with a line above it for separation.  </li>
 <li>Below the title, include the body with the statement of the Lemma, Theorem, etc.</li>
@@ -100,7 +115,7 @@ python3 convert_to_html.py notebook-name.ipynb
     <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem</p>
     <p>This is the statement of the theorem.</p>
 </div>
-<ol>
+<ol class="indented-list">
 <li><strong>Proofs</strong></li>
 </ol>
 <p>Format proofs like the following. 
@@ -116,7 +131,7 @@ python3 convert_to_html.py notebook-name.ipynb
 pip install nbformat markdown
 </code>`<code></p>
 <p>These packages are needed to:
-<ul>
+<ul class="indented-list">
 <li></code>nbformat<code>: Read Jupyter notebook files</li>
 <li></code>markdown`: Convert markdown cells to HTML</li>
 </ul></p>
@@ -138,7 +153,7 @@ python convert_to_html.py divisibility-and-gcd.ipynb output/my-lecture.html
 <div class="markdown-cell">
 <h2>How It Works</h2>
 <p>The conversion script:</p>
-<ol>
+<ol class="indented-list">
 <li><strong>Reads the notebook</strong> using <code>nbformat</code></li>
 <li><strong>Processes markdown cells</strong>: Converts markdown to HTML, preserving TeX math notation for MathJax</li>
 <li><strong>Processes code cells</strong>: Wraps them in <code><script type="text/x-sage"></code> tags for SageCell</li>
@@ -147,11 +162,11 @@ python convert_to_html.py divisibility-and-gcd.ipynb output/my-lecture.html
    - SageCell JavaScript from <code>https://sagecell.sagemath.org/</code>
    - MathJax for rendering LaTeX math ($...$ for inline, $$...$$ for display)
    - CSS styling for better appearance
-<ol>
+<ol class="indented-list">
 <li><strong>Outputs a single HTML file</strong> that can be opened in any browser</li>
 </ol>
 <p>The resulting HTML page:
-<ul>
+<ul class="indented-list">
 <li>Renders all TeX/LaTeX mathematics beautifully</li>
 <li>Provides interactive "Run" buttons for each code cell</li>
 <li>Executes SageMath code in the browser without requiring local installation</li>

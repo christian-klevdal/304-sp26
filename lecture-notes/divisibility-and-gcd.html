@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divisibility and Greatest Common Divisors</title>
-    <style> body {margin: 60px} </style>
+    <style> body { margin: 60px;} </style>
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
     
@@ -39,13 +39,28 @@
         .sage-cell {
             margin: 20px 0;
         }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 <div class="markdown-cell">
 <h1>Divisibility and Greatest Common Divisors</h1>
-<p><strong>Math 304: Number Theory - Spring 2026</strong></p>
-<p>This notebook explores the fundamental concepts of divisibility and greatest common divisors in the integers.</p>
+<p><em>Math 304: Number Theory - Spring 2026</em></p>
+<p>This notebook explores the concepts of divisibility and greatest common divisors in the integers.</p>
 </div>
 
 <div class="markdown-cell">
@@ -58,7 +73,7 @@ $$m = nk$$
 <h3>Definition (Informal)</h3>
 <p>Informally, $n$ divides $m$ means that when you divide $m$ by $n$, you get an integer with no remainder. In other words, $m$ can be evenly split into groups of size $n$.</p>
 <h3>Examples</h3>
-<ol>
+<ol class="indented-list">
 <li>$3 \mid 12$ because $12 = 3 \cdot 4$</li>
 <li>$5 \mid 35$ because $35 = 5 \cdot 7$</li>
 <li>$7 \nmid 30$ because there is no integer $k$ such that $30 = 7k$ (we have $30 = 7 \cdot 4 + 2$)</li>
@@ -93,15 +108,15 @@ print(f"Positive divisors of {n}: {divisors}")
 </div>
 
 <div class="markdown-cell">
-<h1>Division in the Integers</h1>
-<p>If $a, b$ are integers with $b \neq 0$, there are <em>unique</em> integers $q, r$ such that:</p>
-<ol>
+<h3>Division in the Integers</h3>
+If $a, b$ are integers with $b \neq 0$, there are <em>unique</em> integers $q, r$ such that:
+<ol class="indented-list">
 <li>$a = bq + r$</li>
 <li>$0 \leq r < |b|$</li>
 </ol>
 <p>The $q$ is called the <strong>quotient</strong> of $a$ by $b$ (in SageMath: <code>a // b</code>), and $r$ is the <strong>remainder</strong> of $a$ divided by $b$. The remainder is also written as $a \mod b$ (in SageMath: <code>a % b</code>).</p>
 <h3>Examples</h3>
-<ol>
+<ol class="indented-list">
 <li>$10 = 3 \cdot 3 + 1$. Dividing $10$ by $3$ gives quotient $3$ and remainder $1$.</li>
 <li>$-10 = (-3) \cdot 4 + 2$. Dividing $-10$ by $4$ gives quotient $-3$ and remainder $2$.</li>
 <li>$25 = 7 \cdot 3 + 4$. Dividing $25$ by $7$ gives quotient $3$ and remainder $4$.</li>
@@ -141,7 +156,7 @@ print(f"25 divided by 7: quotient = {q3}, remainder = {r3}")
 <div class="markdown-cell">
 <h3>Properties of Divisibility</h3>
 <p>Let $a, b, c$ be integers. Then:</p>
-<ol>
+<ol class="indented-list">
 <li><strong>Transitivity</strong>: If $a \mid b$ and $b \mid c$, then $a \mid c$</li>
 <li><strong>Linear combination</strong>: If $a \mid b$ and $a \mid c$, then $a \mid (bx + cy)$ for any integers $x, y$</li>
 <li><strong>Reflexivity</strong>: $a \mid a$ for any nonzero integer $a$</li>
@@ -170,11 +185,11 @@ print(f"{a} divides {linear_combo}:", a.divides(linear_combo))
 </div>
 
 <div class="markdown-cell">
-<h2>2. Greatest Common Divisor (GCD)</h2>
+<h2>3. Greatest Common Divisor (GCD)</h2>
 <h3>Definition</h3>
 <p>Let $a$ and $b$ be integers, not both zero. The <strong>greatest common divisor</strong> of $a$ and $b$, denoted $\gcd(a,b)$ or $(a,b)$, is the largest positive integer that divides both $a$ and $b$.</p>
 <p>More formally, $d = \gcd(a,b)$ if:
-<ol>
+<ol class="indented-list">
 <li>$d \mid a$ and $d \mid b$ (i.e., $d$ is a common divisor)</li>
 <li>If $c \mid a$ and $c \mid b$, then $c \mid d$ (i.e., $d$ is divisible by every common divisor)</li>
 </ol></p>
@@ -187,22 +202,22 @@ $$\gcd(a_1, a_2, \ldots, a_n)$$
 
 <div class="markdown-cell">
 <h3>Examples</h3>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(12, 18) = 6$ because the common divisors of 12 and 18 are $\{1, 2, 3, 6\}$, and 6 is the largest.</li>
 </ol>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(25, 35) = 5$</li>
 </ol>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(17, 19) = 1$ (17 and 19 are <strong>relatively prime</strong> or <strong>coprime</strong>)</li>
 </ol>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(0, 5) = 5$ because every integer divides 0, so the common divisors of 0 and 5 are exactly the divisors of 5.</li>
 </ol>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(12, 18, 24) = 6$</li>
 </ol>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(-12, 18) = 6$ (the GCD is always positive)</li>
 </ol>
 </div>
@@ -257,7 +272,7 @@ print(f"\nVerification using gcd(): gcd({a}, {b}) = {gcd(a, b)}")
 <div class="markdown-cell">
 <h3>Properties of GCD</h3>
 <p>Let $a, b, c$ be integers. Then:</p>
-<ol>
+<ol class="indented-list">
 <li>$\gcd(a, b) = \gcd(b, a)$ (commutativity)</li>
 <li>$\gcd(a, b) = \gcd(|a|, |b|)$ (GCD depends only on absolute values)</li>
 <li>$\gcd(a, 0) = |a|$ for $a \neq 0$</li>
@@ -286,7 +301,7 @@ print(f"\nProperty verified: {gcd(c*a, c*b)} = {abs(c) * gcd(a, b)}")
 <h3>Relatively Prime Integers</h3>
 <p><strong>Definition</strong>: Two integers $a$ and $b$ are called <strong>relatively prime</strong> or <strong>coprime</strong> if $\gcd(a, b) = 1$.</p>
 <p><strong>Examples</strong>:
-<ul>
+<ul class="indented-list">
 <li>15 and 28 are relatively prime: $\gcd(15, 28) = 1$</li>
 <li>9 and 16 are relatively prime: $\gcd(9, 16) = 1$</li>
 <li>12 and 18 are NOT relatively prime: $\gcd(12, 18) = 6$</li>
