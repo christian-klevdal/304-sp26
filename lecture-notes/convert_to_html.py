@@ -194,7 +194,14 @@ def convert_notebook_to_html(notebook_path, output_path=None):
 
 '''
     
-    html += """</body>
+    # Add link back to lecture notes page
+    html += """
+<hr style="margin-top: 40px; margin-bottom: 20px;">
+<p style="text-align: center;">
+    <a href="lecture-notes.html" style="font-size: 1.1em;">← Back to Lecture Notes</a>
+</p>
+
+</body>
 </html>"""
     
     # Write output
