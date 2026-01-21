@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithms for finding the GCD</title>
+    <title>Greatest Common Divsor And Linear Diophantine Equations</title>
     <style> body { margin: 60px;} </style>
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -58,7 +58,13 @@
 </head>
 <body>
 <div class="markdown-cell">
-<h2>Algorithms for finding the GCD</h2>
+<h1>Greatest Common Divsor And Linear Diophantine Equations</h1>
+<p><em>Math 304: Number Theory - Spring 2026</em></p>
+<p>This notebook explores how to compute greatest common divisors and solve linear diophantine equations in the integers.</p>
+</div>
+
+<div class="markdown-cell">
+<h2>Algorithms For Finding The GCD</h2>
 <h3>Listing All Divisors</h3>
 To find the greatest common divisor (GCD) of two numbers, one naive method is to list all divisors of each number and find the largest common divisor. For example:
 </div>
@@ -104,7 +110,12 @@ The Euclidean algorithm is another  method for finding the GCD. It is based on t
 <li>Repeat until the remainder is zero. The last non-zero remainder is the GCD.</li>
 </ol>
 <h3>Example</h3>
-Find the GCD of 48 and 18 using the Euclidean algorithm.
+Find the GCD of 48 and 20 using the Euclidean algorithm.
+<p>We apply the division algorithm repeatedly:</p>
+$$48 = 20 \cdot 2 + 8$$
+$$20 = 8 \cdot 2 + 4$$
+$$8 = 4 \cdot 2 + 0$$
+<p>The last non-zero remainder is $4$, so $\gcd(48, 20) = 4$.</p>
 </div>
 
 <div class="sage-cell">
@@ -120,36 +131,147 @@ def euclidean_gcd(a, b):
     <p>The Euclidean algorithm terminates in the GCD of two integers a and b after a finite number of steps.</p>
 </div>
 <h2>Comparing Runtime: Factorization vs Euclidean Algorithm</h2>
-The following code compares the runtime of the naive factorization method and the Euclidean algorithm for large integers:
+When we have large integers, it can take quite a while to factor them.
 </div>
 
 <div class="sage-cell">
 <script type="text/x-sage">
-n = 901428039487 
-m = 5647721113483
-gcd(n,m)
-</script>
-</div>
-
-<div class="sage-cell">
-<script type="text/x-sage">
-factor(n)
-</script>
-</div>
-
-<div class="sage-cell">
-<script type="text/x-sage">
-factor(m)
+n = 306859557335763324403448444069903908987961835806843044243 
+factor(n)  # This will take a while!
 </script>
 </div>
 
 <div class="markdown-cell">
-<p>The above numbers are small enough that factorization and the Euclidean algorithm both run in about the same time. Try playing around with bigger numbers and see which method is faster in general!</p>
+<p>However, we can still find the gcd efficiently!</p>
 </div>
 
 <div class="sage-cell">
 <script type="text/x-sage">
+n = 306859557335763324403448444069903908987961835806843044243 
+m = 3137761082682763502441065262992475630332367765985493228
+gcd(n,m)
+</script>
+</div>
 
+<div class="markdown-cell">
+<h2>Linear Diophantine Equations</h2>
+<p>A <strong>linear Diophantine equation</strong> is an equation of the form:
+$$ax + by = d$$
+where $a, b, d$ are integers and we seek integer solutions for $x$ and $y$.</p>
+<p>A fundamental result is that this equation has integer solutions if and only if $\gcd(a, b)$ divides $d$.</p>
+<h3>The Extended Euclidean Algorithm</h3>
+<p>When we use the Euclidean algorithm to find $\gcd(a, b)$, we can <strong>back substitute</strong> to express the GCD as a linear combination of $a$ and $b$. This process allows us to solve linear Diophantine equations.</p>
+<h3>Example: Solving $13x + 17y = 1$</h3>
+<p>First, we apply the Euclidean algorithm to find $\gcd(13, 17)$:</p>
+$$17 = 13 \cdot 1 + 4$$
+$$13 = 4 \cdot 3 + 1$$
+$$4 = 1 \cdot 4 + 0$$
+<p>The GCD is $1$, which divides $1$, so the equation has integer solutions.</p>
+<p>Now we <strong>back substitute</strong> to express $1$ as a linear combination of $13$ and $17$:</p>
+From the second equation:
+$$1 = 13 - 4 \cdot 3$$
+Substitute $4 = 17 - 13 \cdot 1$ from the first equation:
+$$1 = 13 - (17 - 13 \cdot 1) \cdot 3$$
+$$1 = 13 - 17 \cdot 3 + 13 \cdot 3$$
+$$1 = 13 \cdot 4 + 17 \cdot (-3)$$
+<p>Therefore, one solution is $x = 4$ and $y = -3$.</p>
+<p>We can verify: $13(4) + 17(-3) = 52 - 51 = 1$ ✓</p>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Sage has a built-in function to find the extended GCD
+# xgcd returns (g, x, y) where g = gcd(a,b) and g = a*x + b*y
+a = 13
+b = 17
+g, x, y = xgcd(a, b)
+print(f"gcd({a}, {b}) = {g}")
+print(f"{a} * {x} + {b} * {y} = {g}")
+print(f"Verification: {a*x + b*y}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>General Solutions</h3>
+<p>Once we have one particular solution $(x_0, y_0)$ to $ax + by = d$, we can find all solutions using:</p>
+$$x = x_0 + \frac{b}{\gcd(a,b)} \cdot t$$
+$$y = y_0 - \frac{a}{\gcd(a,b)} \cdot t$$
+<p>where $t$ is any integer.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Exercise</h3>
+<p><strong>Prove</strong> that every solution to the linear Diophantine equation $ax + by = d$ is of the form:</p>
+$$x = x_0 + \frac{b}{\gcd(a,b)} \cdot t$$
+$$y = y_0 - \frac{a}{\gcd(a,b)} \cdot t$$
+<p>where $(x_0, y_0)$ is a particular solution and $t$ is any integer.</p>
+<p><em>Hint: If $(x_1, y_1)$ is another solution, consider $a(x_1 - x_0) + b(y_1 - y_0)$ and what this equals.</em></p>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Finding multiple solutions to 13x + 17y = 1
+a = 13
+b = 17
+g, x0, y0 = xgcd(a, b)
+
+print(f"One particular solution: x = {x0}, y = {y0}")
+print(f"Verification: {a}*{x0} + {b}*{y0} = {a*x0 + b*y0}\n")
+
+print("Other solutions (for different values of t):")
+for t in range(-2, 3):
+    x = x0 + (b//g) * t
+    y = y0 - (a//g) * t
+    print(f"t = {t:2}: x = {x:3}, y = {y:3}  →  {a}*{x} + {b}*{y} = {a*x + b*y}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h2>Practice Problem</h2>
+<ol class="indented-list">
+<li>Solve $84x + 33y = 12$. Then use the following SageCell to verify your answer. </li>
+</ol>
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Solve 84x + 33y = 12
+a = 84
+b = 33
+d = 12
+
+# First check if solution exists
+g, x0, y0 = xgcd(a, b)
+print(f"gcd({a}, {b}) = {g}")
+print(f"Does {g} divide {d}? {d % g == 0}")
+
+if d % g == 0:
+    # Scale the solution
+    x = x0 * (d // g)
+    y = y0 * (d // g)
+    print(f"\nOne solution: x = {x}, y = {y}")
+    print(f"Verification: {a}*{x} + {b}*{y} = {a*x + b*y}")
+else:
+    print(f"\nNo integer solutions exist because {g} does not divide {d}.")
+</script>
+</div>
+
+<div class="markdown-cell">
+<ol class="indented-list">
+<li>Pick several different random values of $a,b,d$ and solve the diophantine equation</li>
+</ol>
+    $$ ax + by = d$$
+Verify your answer in Sage.
+</div>
+
+<div class="sage-cell">
+<script type="text/x-sage">
+# Use this SageCell to verify your answer:
+from random import randint
+
+a = randint(1, 100)
+b = randint(1, 100)
+d = randint(1, 100)
 </script>
 </div>
 
