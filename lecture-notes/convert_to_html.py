@@ -116,6 +116,14 @@ def convert_notebook_to_html(notebook_path, output_path=None):
         if first_line.startswith('#'):
             title = first_line.lstrip('#').strip()
     
+    # Count sections (h1 and h2 headers) to determine how many linked groups we need
+    section_count = 0
+    for cell in nb.cells:
+        if cell.cell_type == 'markdown':
+            # Check if this cell contains h1 or h2 headers
+            if re.search(r'^#{1,2}\s+', cell.source, re.MULTILINE):
+                section_count += 1
+    
     # Start HTML document
     html = f"""<!DOCTYPE html>
 <html>
@@ -130,14 +138,21 @@ def convert_notebook_to_html(notebook_path, output_path=None):
     <!-- SageCell JavaScript -->
     <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
     <script>
-        sagecell.makeSagecell({{
-            inputLocation: '.sage-cell',
+        // Create separate linked groups for each section
+"""
+    
+    # Add makeSagecell calls for each section
+    for i in range(section_count):
+        html += f"""        sagecell.makeSagecell({{
+            inputLocation: '.sage-section-{i}',
             evalButtonText: 'Run',
             languages: ['sage'],
             hide: ['permalink'],
             linked: true
         }});
-    </script>
+"""
+    
+    html += """    </script>
     
     <!-- MathJax for TeX rendering -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -179,14 +194,20 @@ def convert_notebook_to_html(notebook_path, output_path=None):
 """
     
     # Process each cell
+    current_section = -1  # Track which section we're in (-1 means before any section)
     for cell in nb.cells:
         if cell.cell_type == 'markdown':
+            # Check if this cell contains h1 or h2 headers
+            if re.search(r'^#{1,2}\s+', cell.source, re.MULTILINE):
+                current_section += 1
             # Convert markdown to HTML manually, preserving LaTeX
             html_content = markdown_to_html(cell.source)
             html += f'<div class="markdown-cell">\n{html_content}\n</div>\n\n'
         elif cell.cell_type == 'code':
+            # Assign sage cells to the current section
+            section_class = f'sage-section-{current_section}' if current_section >= 0 else 'sage-section-0'
             # Create SageCell
-            html += f'''<div class="sage-cell">
+            html += f'''<div class="sage-cell {section_class}">
 <script type="text/x-sage">
 {cell.source}
 </script>
