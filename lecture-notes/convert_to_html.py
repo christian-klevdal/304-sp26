@@ -167,14 +167,14 @@ def convert_notebook_to_html(notebook_path, output_path=None):
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <style>
-        .markdown-cell {{
+        .markdown-cell {
             margin: 20px 0;
-        }}
-        .sage-cell {{
+        }
+        .sage-cell {
             margin: 20px 0;
-        }}
+        }
         /* Header styling - make h1 stand out with boxes */
-        .markdown-cell h1 {{
+        .markdown-cell h1 {
             background-color: #f0f4f8;
             border: 2px solid #003366;
             border-left: 5px solid #003366;
@@ -183,11 +183,11 @@ def convert_notebook_to_html(notebook_path, output_path=None):
             margin-bottom: 20px;
             border-radius: 5px;
             color: #003366;
-        }}
+        }
         /* First h1 shouldn't have extra top margin */
-        .markdown-cell:first-child h1:first-child {{
+        .markdown-cell:first-child h1:first-child {
             margin-top: 20px;
-        }}
+        }
     </style>
 </head>
 <body>
