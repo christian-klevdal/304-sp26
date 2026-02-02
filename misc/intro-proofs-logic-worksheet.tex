@@ -1,0 +1,681 @@
+\documentclass[11pt]{article}
+\input{../AdamMathPreamble2.sty}
+%\usepackage{AdamMathPreamble}
+\usepackage{pdfpages}
+\usepackage{subfiles}
+%\usepackage{pgfplots}
+\usepackage{mdframed,xcolor,paracol}
+\newcommand{\cb}{\columnbreak}
+\newcommand{\FRB}[1]{\bigskip\begin{mdframed}[backgroundcolor=blue!20]#1
+    \end{mdframed}}
+\newcommand{\fireside}[1]{\columnratio{0.33,0.66}
+\begin{paracol}{2}
+%\CG{2in}{fireplace.jpeg}
+\switchcolumn
+(Fireside Chat)#1
+\end{paracol}
+}
+
+\pagestyle{empty}
+\title{Introduction to Logic and Proofs}
+\usepackage{mdframed,xcolor}
+\date{}
+%\includeversion{sol}\excludeversion{nosol}
+\includeversion{nosol}\excludeversion{sol}
+
+\begin{document}
+
+\section*{Introduction to Logic and Proofs}
+
+\FR{In this worksheet we will cover the fundamentals of mathematical logic and proof techniques:
+\begin{itemize}
+\item Propositional logic: statements, negations, implications, converse, and contrapositive
+\item Quantifiers: existential and universal, and their negations
+\item Direct proof
+\item Proof by contrapositive
+\item Proof by contradiction
+
+\item Mathematical induction
+\end{itemize}
+}
+
+
+\noindent{\bf Guide:} In this worksheet, boxed sections with gray/blue backgrounds contain definitions and examples that I will present. Sections labeled ``{\bf Exercise}'' or ``{\bf Your Turn}'' are problems for you to work on.
+
+\section{Propositional Logic}
+
+\FRB{In mathematical logic we use several important symbols:
+
+{\bf $\lor$} which means \uline{\hskip 1in} (OR);
+ 
+{\bf $\land$} which means \uline{\hskip 1in} (AND);
+
+{\bf $\neg$} which means \uline{\hskip 1in} (NOT/negation);
+
+{\bf $\implies$} which means \uline{\hskip 1in} (implies/if...then);
+
+{\bf Note:} In this class, OR is always {\bf inclusive}: ``$p$ OR $q$'' is true if either or both statements are true.
+}
+
+\subsection{Statements and Evaluating Propositions} 
+{\bf Example:} Below is a list of propositions. Discuss the truth value of each:
+\begin{enumerate}
+\item $7<\pi$ or $10<3^2$.
+\item It is not the case that $7<\pi$.
+\item $10<3^2$ or it is not the case that $7<\pi$.
+\item $2^9=512$ and it is not the case that $10<3^2$.
+\item It is not the case that $7<\pi$ or $10<3^2$.
+\end{enumerate}
+
+{\bf Exercise:} {Translating Between Math and English}
+
+Let $p$ and $q$ denote the statements ``We won our first game'' and ``We won our second game.''  Rewrite each using the symbols $p, q,\land, \lor, \neg$:
+\begin{enumerate}[a.)]
+\item We won both of our first two games. \medskip 
+\item We lost both of our first two games.\medskip  
+\item We won at least one of our first two games.\medskip  
+\item We lost at least one of our first two games.\medskip  
+\item We didn't win both of our first two games. \medskip
+\end{enumerate}
+
+{Two of the above are {\bf logically equivalent}. Which two?}
+
+\newpage
+\subsection{Implications: Conditional Statements, Converse and Contrapositive.}
+
+Sometimes we want to make {\bf conditional} statements. For example:  ``If $x$ is a whole number then $4x$ is an even number.''  
+
+These are examples of ``implications'' or ``conditional statements.'' We denote such statements as 
+$p \implies q$, where $p$ is called the {\bf hypothesis} and $q$ is called the {\bf conclusion.} 
+
+\FRB{
+The {\bf converse} of $p \implies q$ is \uline{\hskip 1.5in}
+
+The {\bf contrapositive} of $p \implies q$ is \uline{\hskip 1.5in}
+
+The contrapositive is always logically equivalent to the original statement, while the converse is not!
+}
+
+\smallskip
+
+{\bf Story Time:} Understanding implications
+
+\begin{center}$p \implies q$:  ``If it's Tuesday, then I go rock climbing.''\end{center}
+
+Under which of the following situations would you say that this sentence is FALSE? (In other words, when would you call me out as a liar?) 
+
+It's Tuesday and I go rock climbing. \hfill [Telling the truth / Liar]\medskip 
+
+It's Tuesday and I do not go rock climbing.\hfill [Telling the truth / Liar]\medskip   
+
+It's not Tuesday and I go rock climbing.\hfill [Telling the truth / Liar]\medskip   
+
+It's not Tuesday and I do not go rock climbing. \hfill [Telling the truth / Liar]\medskip   
+
+
+
+Which of the following are correct reformulations of ``If it's Tuesday then I go rock climbing''?
+\begin{itemize}
+	\item I climb every Tuesday
+	\item I only climb on Tuesdays
+	\item I don't climb on Wednesday
+	\item Every Tuesday I climb
+	\item If I climb, then it's Tuesday
+\end{itemize}
+
+\FR{
+\vspace{0.5cm}
+
+$p \implies q$ can be rewritten in terms of $\neg, \lor, \land$ as \uline{\hskip 1.5in}. \\
+
+To prove $p \implies q$:I need to assume that $p$ is \textbf{True / False} (circle one) and prove that $q$ is \textbf{True / False}. 
+}
+
+
+{\bf Exercise:} For each statement, identify the hypothesis and conclusion, then write the converse and contrapositive:
+
+\begin{enumerate}[a.)]
+\item All birds lay eggs
+
+(First rewrite as ``IF \uline{\hskip 2in} THEN \uline{\hskip 2in}'')
+
+Hypothesis: \hfill Conclusion: \hfill \,
+
+Converse: \hfill Contrapositive: \hfill \, 
+
+
+\item Only California residents live in San Diego
+
+(First rewrite as ``IF \uline{\hskip 2in} THEN \uline{\hskip 2in}'')
+
+Hypothesis: \hfill Conclusion: \hfill \, 
+
+Converse: \hfill Contrapositive: \hfill \, 
+\end{enumerate}
+
+\newpage
+\subsection{Negation and DeMorgan's Laws}
+
+Sometimes a statement might be hard to wrap your head around. Consider:
+
+``It is not the case that either Alice is friends with Bob or that if Bob is friends with Charlie then Dave has no friends." 
+
+To simplify such statements, we need to understand negation. Let's build intuition:
+
+{\bf Exercise:} Write the following statements as a statement beginning with "I do not like..." 
+
+``It is not the case that (I like chocolate or tea).''  
+
+\vspace{1cm}
+
+``It is not the case that (I like chocolate and tea).''  
+
+\vspace{1cm}
+
+
+\FR{
+These are examples of {\bf DeMorgan's Laws:}  
+$$\neg (p \land q) = \neg p \lor \neg q$$
+$$\neg (p \lor q) = \neg p \land \neg q$$
+These laws help us simplify compound statements by moving negations inside parentheses.}
+
+\bigskip
+
+{\bf Exercise :} Negate the following statements using DeMorgan's Laws:
+\begin{enumerate}
+\item $p \land q$
+\item $(p \lor q) \land r$
+\item $p \implies q$ (Hint: recall that $p \implies q$ is equivalent to $\neg p \lor q$)
+\end{enumerate}
+
+\section{Quantifiers}
+
+In mathematics, we often make statements about collections of objects. We use quantifiers to express these ideas.
+
+\FRB{
+The {\bf universal quantifier} $\forall$ means ``for all'' or ``for every''
+
+The {\bf existential quantifier} $\exists$ means ``there exists'' or ``there is at least one''
+}
+
+\subsection{Examples of Quantified Statements}
+
+\begin{enumerate}
+\item $\forall x \in \mathbb{R}, x^2 \geq 0$ means: ``For all real numbers $x$, $x^2$ is non-negative.''
+
+\item $\exists x \in \mathbb{Z}, x^2 = 4$ means: ``There exists an integer $x$ such that $x^2 = 4$.''
+
+\item $\forall n \in \mathbb{N}, \exists m \in \mathbb{N}, m > n$ means: ``For every natural number $n$, there exists a natural number $m$ such that $m > n$.''
+\end{enumerate}
+
+\subsection{Negating Quantifiers}
+
+Understanding how to negate quantified statements is crucial:
+
+\FRB{
+Rules for negating quantifiers:
+\begin{itemize}
+\item \qquad $\neg(\forall x, P(x)) \equiv \exists x, \neg P(x)$. \qquad In words: the negation of ``for all'' is ``there exists...not''
+\item \qquad $\neg(\exists x, P(x)) \equiv \forall x, \neg P(x)$.  \qquad In words:  the negation of ``there exists'' is ``for all...not''
+\end{itemize}
+}
+
+{\bf Exercise:} Negate the following statements:
+
+\begin{enumerate}
+\item For all integers $n$, $n^2$ is even.
+\vspace{0.5cm}
+
+\item There exists a real number $x$ such that $x^2 < 0$.
+\vspace{0.5cm}
+\item For all students in this class, there exists a problem on the homework that they can solve.
+\vspace{0.5cm}
+\end{enumerate}
+
+
+\section{Proof Techniques}
+
+Now that we understand logical statements, let's learn how to prove them!
+\subsection{Direct Proof}
+
+\FRB{
+In a {\bf direct proof}, we start with the hypothesis and proceed step by step to the conclusion.
+
+{\bf Strategy:}
+\begin{itemize}
+\item Assume the hypothesis is true
+\item Use definitions, known facts, and logical reasoning
+\item Arrive at the conclusion
+\end{itemize}
+}
+
+\subsection{Example 1}
+
+{\bf Proposition:} If $x$ and $y$ are integers and $x + y$ is even then $x - y$ is even.
+
+\begin{proof}
+Suppose $x,y$ are integers such that $x + y$ is even. 
+
+By definition of an even integer, this means that $x+ y = 2k$ for some $k \in \mathbb{Z}$. Consequently, 
+	\[ x- y = (x + y) - 2y = 2k - 2y = 2(k - y). \]
+Since $k-y$ is also an integer, we conclude that $x-y$ is even. 
+\end{proof}
+
+{\bf Notes:} The above proof is well written: our assumptions are clearly stated, every variable has been identified and introduced correctly (i.e.\ what set does $k$ live in), every step is justified, and we clearly arrive at the desired conclusion. And very importantly: complete, grammatically correct sentences have been used! 
+
+\subsection{Example 2}
+
+{\bf Proposition:} If $m$ is an even positive integer then $(m + 1)^2$ is odd.
+
+\begin{proof}
+\, 
+\vspace{2cm}
+
+\, 
+\end{proof}
+
+\newpage
+
+\subsection{Exercise: Direct Proofs}
+
+Write direct proofs for the following:
+
+\begin{enumerate}
+\item If $k$ is a positive integer such that $5k - 1$ is even, then $9k + 13$ is even. 
+
+\vspace{3cm}
+
+\item Suppose $n$ and $m$ are integers and $n \neq 0$. Prove that if $n | m$ then $n | (m^2 + m)$.  
+
+\vspace{3cm}
+
+\item Prove that if $r$ and $s$ are rational numbers then so is $r + s$. 
+
+\vspace{3cm}
+
+\end{enumerate}
+
+\subsection{Proof by Contrapositive}
+Sometimes a direct proof is difficult, but the contrapositive is easier to prove. 
+
+\FRB{
+
+Recall: To prove $P \implies Q$, we can instead prove the contrapositive: $\neg Q \implies \neg P$
+
+These are {\bf logically equivalent}, so proving one proves the other!
+
+{\bf When to use contrapositive:}
+\begin{itemize}
+\item When the hypothesis is easier to work with than the conclusion
+\item When you need to prove something is NOT true
+\item When the contrapositive gives you more to work with
+\end{itemize}
+}
+
+
+{\bf Example:} Let $\beta$ be an irrational number. Prove that $\beta - 4$ is also irrational.
+
+{\bf Strategy:} The direct approach would be ``Assume $\beta$ is irrational, prove $\beta - 4$ is irrational.'' But it's hard to work with irrationality directly! Instead, prove the contrapositive: ``If $\beta - 4$ is rational, then $\beta$ is rational.''
+\begin{proof}
+\, 
+
+\vspace{3cm}
+
+\, 
+\end{proof}
+
+
+\bigskip
+
+{\bf Your Turn:} Use proof by contrapositive:
+
+\begin{enumerate}
+\item Prove that if $x^3 + 5x = 40$ then $x < 3$.
+
+\vspace{3cm}
+
+\item Prove that if $a$ is not rational then $a + 7$ is not rational. 
+
+\vspace{3cm}
+
+\end{enumerate}
+
+\subsection{Proof by Contradiction}
+
+\FRB{
+{\bf Proof by Contradiction} (Reductio Ad Absurdum):
+
+\begin{itemize}
+\item Assume the statement you want to prove is FALSE
+\item Use logical reasoning to derive a contradiction (e.g., $1 = 0$ or ``$x$ is both even and odd'')
+\item Conclude that your assumption must be wrong, so the statement is TRUE
+\end{itemize}
+}
+
+\subsection{Example 1}
+
+{\bf Proposition:} There does not exist a largest natural number. 
+
+\begin{proof}
+We argue by contradiction. Suppose that $N$ is the largest natural number. This means $N \geq m$ for every natural number $m$.
+
+But consider $N + 1$. This is also a natural number (since natural numbers are closed under addition). 
+
+If $N$ was greater than or equal to {\bf every} natural number, then $N \geq N + 1$.
+
+Subtracting $N$ from both sides gives $0 \geq 1$, which is false.
+
+We have reached a contradiction, so there can be no largest natural number.
+\end{proof}
+
+\subsection{Example 2}
+
+{\bf Proposition:} There is no smallest positive rational number.
+
+\begin{proof}
+We argue by contradiction. Suppose there were a smallest positive rational number, call it $x$.
+
+Then $x > 0$ and for every positive rational number $r$, we have $x \leq r$.
+
+Consider $\frac{x}{2}$. Since $x$ is rational (say $x = \frac{m}{n}$), we have $\frac{x}{2} = \frac{m}{2n}$, which is also rational.
+
+Also, $\frac{x}{2} > 0$ since $x > 0$.
+
+But $\frac{x}{2} < x$, which contradicts our assumption that $x$ was the smallest positive rational number.
+
+Therefore, there is no smallest positive rational number. 
+\end{proof}
+
+\subsection{Exercise: Contradiction Proofs}
+
+Use proof by contradiction:
+
+\begin{enumerate}
+\item Your friend claims there is a perfect square greater than 10 that is exactly one more than a prime number. Show this is incorrect.
+
+\vspace{5cm}
+
+\item Prove Euclid's theorem: There are infinitely many prime numbers. 
+\vfill
+
+\end{enumerate}
+
+
+\section{If and only if statements}
+\FRB{
+An ``if and only if'' statement has the form $P \iff Q$, which means:
+\begin{itemize}
+\item $P \implies Q$ (if $P$ then $Q$), AND
+\item $Q \implies P$ (if $Q$ then $P$)
+\end{itemize}
+
+To prove an if and only if statement, you must prove BOTH directions!
+}
+
+\newpage
+
+\subsection{Example}
+
+{\bf Proposition:} Let $a$ be an integer. Then $a$ is even if and only if $a^2$ is even.
+
+\begin{proof}
+There are two parts.
+
+{\bf First direction:} We show that if $a$ is even, then $a^2$ is even. \vspace{2cm}
+
+{\bf Second direction:} We show that if $a^2$ is even, then $a$ is even. \vspace{2.5cm}
+
+We have proven both directions, so the if and only if statement is true.
+\end{proof}
+
+{\bf{Question}:} 
+\begin{itemize}
+\item The statement ``$a$ is even if $a^2$ is even" is proven in the first or second direction above?  \hfill \textbf{First}\, / \, \textbf{Second}
+\item What about the statement ``$a$ is even only if $a^2$ is even"? \hfill \textbf{First}\, / \, \textbf{Second}
+\end{itemize}
+
+\subsection{Existence and Uniqueness}
+
+\FRB{
+{\bf Existence statements} assert that something exists. To prove them, construct a specific example and show it works!
+
+{\bf Uniqueness statements} assert that only one thing satisfies a property. To prove uniqueness: Assume $a$ and $b$ both satisfy the property, then show that $a = b$.
+}
+
+\subsection{Example 1}
+
+{\bf Proposition:} There exist integers $x, y, z$ such that $x^2 + y^2 = z^2$. 
+
+\begin{proof}
+Let $x = 3$, $y = 4$, and $z = 5$. These are all integers, and $3^2 + 4^2 = 9 + 16 = 25 = 5^2$. 
+\end{proof}
+
+\subsection{Example 2}
+
+{\bf Proposition:} There exists a unique integer solution to $x^2 + 1 = 2x$. 
+
+\begin{proof}
+{\bf Existence:} Let $x = 1$. Then $1^2 + 1 = 1 + 1 = 2 = 2(1) = 2x$, so $x = 1$ is a solution.
+
+{\bf Uniqueness:} Suppose $a$ is another integer solutions to the equation. We need to show that $a = 1$. Since $a$ is a solution, we know that $a^2 + 1 = 2a$.
+
+Rearranging, we get that $(a-1)^2 = a^2 - 2a + 1 = 0$. Since the only number that squares to zero is $0$, we conclude that $a-1 = 0$, or equivalently that $a = 1$. \end{proof}
+
+\subsection{Exercise}
+
+For every integer $x$ there exists a unique integer $y$ such that $(x+1)^2 - x^2 = 2y - 1$. \vspace{5cm}
+
+\section{Mathematical Induction}
+
+\FRB{
+{\bf Mathematical Induction} is a powerful technique for proving statements about all natural numbers.
+
+If you have statements $S(1), S(2), S(3), \ldots$ and want to prove them all (i.e.\ prove $\forall n \in \mathbb{N}: S(n)$), you can:
+
+\begin{itemize}
+\item {\bf Base case:} Prove $S(1)$ is true
+\item {\bf Inductive step:} Show that for any $k$, IF $S(k)$ is true THEN $S(k+1)$ is true
+\end{itemize}
+
+This is like dominoes: if the first falls and each domino knocks over the next, all will fall!
+}
+
+\subsection{Understanding Statements in Induction}
+
+Before proving by induction, identify what $S(n)$ means for different values:
+
+{\bf Problem:} If $n\geq 1$ then $6^n - 1$ is divisible by $5$.
+
+$S(n)$: ``$6^n - 1$ is divisible by $5$'' \bigskip 
+
+$S(1)$ is: \bigskip 
+
+$S(6)$ is: \bigskip 
+
+$S(k)$ is: \bigskip 
+
+$S(k+1)$ is: \bigskip 
+
+\bigskip
+
+{\bf Problem:} $n^2 < 2^n$ for all $n \geq 5$.
+
+$S(n)$ is: \bigskip
+
+$S(5)$ is: \bigskip 
+
+$S(k)$ is: \bigskip 
+
+$S(k+1)$ is: \bigskip 
+
+\newpage
+\subsection{Writing Induction Proofs}
+
+{\bf Template for induction proofs:}
+
+\FR{
+\begin{proof}
+Let $S(n)$ be the statement ``[state what $S(n)$ is]''. We prove this by induction on $n$.
+
+{\bf Base case:} We verify $S(1)$ [or whatever the starting value is]: [show the base case is true]
+
+{\bf Inductive step:} Assume that $S(k)$ is true for some $k \geq 1$. That is, assume [state the inductive hypothesis].
+
+We must show that $S(k+1)$ is true. That is, we must show [state what $S(k+1)$ says].
+
+[Use the inductive hypothesis to prove $S(k+1)$]
+
+{\bf Conclusion:} By mathematical induction, $S(n)$ is true for all $n \geq 1$. \qed
+\end{proof}
+}
+
+\bigskip
+
+{\bf Example:} The sum of the first $n$ odd positive integers is $n^2$. 
+
+\FR{
+\begin{proof}
+Let $S(n)$ be the statement ``$\sum_{i = 1}^n (2i - 1) = n^2$''. We prove by induction on $n$.
+
+{\bf Base case:} $S(1)$ asserts that $1 = 1^2$, which is true. 
+
+{\bf Inductive step:} Assume that $S(k)$ is true for some $k \geq 1$. That is, assume 
+$$\sum_{i = 1}^k (2i - 1) = k^2$$
+This is the {\bf inductive hypothesis}.
+
+We must show that $S(k+1)$ is true:
+\begin{align*}
+\sum_{i =1}^{k+1} (2i - 1) &= \left(\sum_{i =1}^k (2i - 1)\right) + (2(k+1) - 1) \\
+&= k^2 + 2k + 1 \quad \text{(by inductive hypothesis)}\\
+&= (k+1)^2
+\end{align*}
+
+{\bf Conclusion:} By mathematical induction, $S(n)$ is true for all $n \geq 1$. \qed
+\end{proof}
+}
+
+{\bf Your Turn:} Prove the following by induction:
+
+\begin{enumerate}
+\item Let $n\geq 0$. Then $n^3 - n$ is divisible by $3$. 
+
+\vfill
+
+\newpage
+
+\item Prove that if $n \geq 4$ then $n! \geq 2^n$.
+
+\vfill
+
+
+\item Prove that if $n$ is a positive integer then 
+$$\sum_{i = 1}^n \frac{1}{i^2} \leq 2 - \frac{1}{n}.$$
+
+\textit{Hint for the inductive step:} You'll need to show that 
+$$2 - \frac{1}{k} + \frac{1}{(k+1)^2} \leq 2 - \frac{1}{k+1}$$
+
+\vfill
+
+\end{enumerate}
+
+\newpage
+\subsection{Strong Induction}
+
+\FRB{
+{\bf Strong Induction} is a variant where we assume ALL previous cases $S(1), S(2), \ldots, S(k)$ are true to prove $S(k+1)$.
+
+Template:
+\begin{itemize}
+	\item Prove base case(s) (you might need more than one) 
+	\item Show that IF $S(1), S(2), \ldots, S(k)$ are all true THEN $S(k+1)$ is true
+\end{itemize}
+
+This is like saying ``Show that IF dominoes $1, 2, 3, \ldots, k$ have fallen then domino $k+1$ will fall.''
+}
+
+\bigskip
+
+{\bf Example:} You have 5-cent and 8-cent postage stamps. Prove that you can make any postage amount of 28 cents or more.
+
+\begin{proof}
+Let $S(n)$ be the statement ``You can make $n$ cents postage with 5 and 8 cent stamps.''
+
+{\bf Base cases:} 
+\begin{itemize}
+\item $S(28)$: $28 = 4 \times 5 + 1 \times 8$ 
+\item $S(29)$: $29 = 1 \times 5 + 3 \times 8$ 
+\item $S(30)$: $30 = 6 \times 5$ 
+\item $S(31)$: $31 = 3 \times 5 + 2 \times 8$ 
+\item $S(32)$: $32 = 4 \times 8$ 
+\end{itemize}
+
+{\bf Inductive step:} Let $k \geq 32$ and assume $S(n)$ is true for all $28 \leq n \leq k$.
+
+We must show $S(k+1)$ is true. Since $k + 1 \geq 33$, we have $(k+1) - 5 \geq 28$.
+
+By the inductive hypothesis, $S((k+1) - 5)$ is true, so we can make $(k+1) - 5$ cents.
+
+Adding one more 5-cent stamp gives us $k+1$ cents. Therefore $S(k+1)$ is true.
+
+{\bf Conclusion:} By strong induction, we can make any postage amount of 28 cents or more.
+\end{proof}
+
+\bigskip
+
+{\bf Your Turn:} 
+
+You have a candy bar with $n$ squares of chocolate ($n\geq 1$) arranged in a rectangular grid. Prove that no matter how you break up the candy bar, one break at a time, it will take a total of $n-1$ breaks to break up the bar into individual squares.
+
+\vfill
+
+\newpage
+
+{\bf Challenge Problems:}
+
+Try to prove these statements using the techniques you've learned:
+
+\begin{enumerate}
+
+\item Ten children at a party collect a total of 74 pieces of candy from a pinata. Prove there is some child who received at least 8 pieces of candy. 
+
+\vspace{3cm}
+
+\item There exist 1000 positive integers in a row, none of which are prime.
+
+\vspace{3cm}
+
+\item {\bf Theorem:} Let $n > 1$ be an integer. Then $n$ is either prime or it can be written as a product of primes. (Use strong induction!)
+
+\vfill
+
+\item If $n$ is an integer that is not divisible by $2$ or $3$, then $n^2 - 1$ is divisible by $24$. 
+
+\vspace{5cm}
+
+\end{enumerate}
+
+%
+%\newpage
+%
+%\section{Common mistakes to avoid!}
+%
+%\subsection{Incorrect proofs}
+%Sometimes we run into common mistakes. I'll give some proofs here, and your job is to tell me what is wrong with them. In some cases, I am `proving' incorrect statements, while in other cases, I am giving incorrect proofs of
+%
+%\begin{enumerate}
+%\item If $n$ is an integer that is not divisible by $2$ or $3$, then $n^2 - 1$ is divisible by $24$. 
+%\begin{proof}
+%We will prove the contrapositive statement, that if $n^2 -1$ is not divisible by $24$, then $n$ is divisible by $2$ or $3$. 
+%\end{proof}
+%
+%\end{enumerate}
+%
+%\subsection{Unclear proofs}
+%Guidelines: 
+%\begin{itemize}
+%\item If you introduce a variable, be sure to say what set it lives in! 
+%\item Use complete sentences when writing. 
+%\item Guide the reader through what you are doing. E.g., if you want to do proof by contradiction, state at the beginning that you are doing proof by contradiction. 
+%\end{itemize}
+%
+\end{document}
