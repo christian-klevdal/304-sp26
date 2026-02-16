@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Modular Arithmetic</title>
+    <style> body { margin: 60px;} </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        // Create separate linked groups for each section
+        sagecell.makeSagecell({
+            inputLocation: '.sage-section-0',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Introduction to Modular Arithmetic</h1>
+<p>In this lecture, we explore congruences and modular arithmetic!</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Congruences in the Integers</h3>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Congruence)</p>
+    <p>Let $n$ be a positive integer. We say that integers $a$ and $b$ are <b>congruent modulo $n$</b>, written $a \equiv b \pmod{n}$, if $n$ divides $a - b$. Equivalently, $a \equiv b \pmod{n}$ if and only if $a$ and $b$ have the same remainder when divided by $n$.</p>
+</div>
+<p><strong>Examples:</strong>
+<ul class="indented-list">
+<li>$17 \equiv 5 \pmod{12}$ because $12 \mid (17 - 5)$</li>
+<li>$-3 \equiv 7 \pmod{10}$ because $10 \mid (-3 - 7) = -10$</li>
+<li>$100 \equiv 0 \pmod{25}$ because $25 \mid 100$</li>
+</ul></p>
+<h4>Basic Properties of Congruences</h4>
+<p>Congruences behave much like equalities:</p>
+<ol class="indented-list">
+<li>Reflexivity: $a \equiv a \pmod{n}$ for all integers $a$</li>
+<li>Symmetry: If $a \equiv b \pmod{n}$, then $b \equiv a \pmod{n}$</li>
+<li>Transitivity: If $a \equiv b \pmod{n}$ and $b \equiv c \pmod{n}$, then $a \equiv c \pmod{n}$</li>
+<li>Addition: If $a \equiv b \pmod{n}$ and $c \equiv d \pmod{n}$, then $a + c \equiv b + d \pmod{n}$</li>
+<li>Multiplication: If $a \equiv b \pmod{n}$ and $c \equiv d \pmod{n}$, then $ac \equiv bd \pmod{n}$</li>
+</ol>
+<p><strong>Exercise:</strong> Prove the five properties listed above using the definition of congruence.</p>
+<p><strong>Warning about Cancellation:</strong> Unlike ordinary equations, the cancellation property does not always hold for congruences. That is, from $ab \equiv ac \pmod{n}$, we cannot always conclude that $b \equiv c \pmod{n}$.</p>
+<p><strong>Exercise:</strong> Find integers $a, b, c, n$ such that $ab \equiv ac \pmod{n}$ but $b \not\equiv c \pmod{n}$.</p>
+<h4>Congruence Equations</h4>
+<p>A congruence equation is an equation involving congruences that we want to solve. These equations can be linear or nonlinear, and can involve one or multiple variables.</p>
+<p><strong>Example 1:</strong> Solve $5x + 11 \equiv 2 \pmod{12}$.</p>
+<p>We can simplify: $5x \equiv 2 - 11 \equiv -9 \equiv 3 \pmod{12}$.</p>
+<p>Now we check values of $x$ from $0$ to $11$:
+<ul class="indented-list">
+<li>$x = 0$: $5 \cdot 0 = 0 \not\equiv 3 \pmod{12}$</li>
+<li>$x = 1$: $5 \cdot 1 = 5 \not\equiv 3 \pmod{12}$</li>
+<li>$x = 2$: $5 \cdot 2 = 10 \not\equiv 3 \pmod{12}$</li>
+<li>$x = 3$: $5 \cdot 3 = 15 \equiv 3 \pmod{12}$ ✓</li>
+</ul></p>
+<p>So $x \equiv 3 \pmod{12}$ is a solution. This means that $x = \ldots, -9, 3, 15, \ldots$ are all solutions. If we continue on this way, we see that these are the only solutions.</p>
+<p><strong>Example 2:</strong> Solve $3^n \equiv 1 \pmod{17}$ for $n \geq 1$.</p>
+<p>We compute powers of $3$ modulo $17$:
+<ul class="indented-list">
+<li>$3^1 \equiv 3 \pmod{17}$</li>
+<li>$3^2 \equiv 9 \pmod{17}$</li>
+<li>$3^3 \equiv 27 \equiv 10 \pmod{17}$</li>
+<li>$3^4 \equiv 30 \equiv 13 \pmod{17}$</li>
+<li>...continuing this process...</li>
+<li>$3^{16} \equiv 1 \pmod{17}$</li>
+</ul></p>
+<p>So the smallest positive solution is $n = 16$. In this case, $3^{16\cdot 2} \equiv (3^{16})^2 \equiv 1^2 \equiv 1 \pmod{16}$ so $16\cdot 2$ is also a solution. In fact, $n = 16\cdot k$ for any $k \in \mathbb{Z}_{\geq 0}$ is a solution! Moreover, these are all of the solutions (why?).</p>
+<p><strong>Exercise:</strong> For which integers $k \geq 1$ does $2^k \equiv 3 \pmod{11}$?</p>
+<p><strong>Example 3:</strong> Find all solutions to $x^2 + y^2 \equiv 3 \pmod{4}$ where $0 \leq x, y < 4$.</p>
+<p>We check all possible pairs:
+<ul class="indented-list">
+<li>Possible values of $x^2 \pmod{4}$: $0^2 \equiv 0$, $1^2 \equiv 1$, $2^2 \equiv 0$, $3^2 \equiv 1$</li>
+<li>So $x^2 \pmod{4} \in \{0, 1\}$ and $y^2 \pmod{4} \in \{0, 1\}$</li>
+<li>Possible sums: $0 + 0 = 0$, $0 + 1 = 1$, $1 + 0 = 1$, $1 + 1 = 2$</li>
+</ul></p>
+<p>Since we can only get $0, 1,$ or $2$ as the sum of two squares modulo $4$, there are <strong>no solutions</strong> to $x^2 + y^2 \equiv 3 \pmod{4}$.</p>
+</div>
+
+<div class="markdown-cell">
+<h4>Using SageMath with congruences</h4>
+Here is a bit of code to get you going with how to work with congruences in Sage math.
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# In SageMath, we use % for the modulo operation
+# a % n gives the remainder when a is divided by n
+
+# Check if 17 ≡ 5 (mod 12)
+print(f"17 mod 12 = {17 % 12}")
+print(f"5 mod 12 = {5 % 12}")
+print(f"17 ≡ 5 (mod 12)? {17 % 12 == 5 % 12}")
+
+print()
+
+# Check if -3 ≡ 7 (mod 10)
+print(f"-3 mod 10 = {-3 % 10}")
+print(f"7 mod 10 = {7 % 10}")
+print(f"-3 ≡ 7 (mod 10)? {-3 % 10 == 7 % 10}")
+</script>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Solving congruence equations by brute force
+
+# Example 1: Solve 5x + 11 ≡ 2 (mod 12)
+print("Example 1: Solve 5x + 11 ≡ 2 (mod 12)")
+n = 12
+solutions = []
+for x in range(n):
+    if (5*x + 11) % n == 2 % n:
+        solutions.append(x)
+print(f"Solutions: x ≡ {solutions} (mod {n})")
+
+print()
+
+# Example 2: Solve 3^n ≡ 1 (mod 17)
+print("Example 2: Find smallest n ≥ 1 where 3^n ≡ 1 (mod 17)")
+n = 1
+while power_mod(3, n, 17) != 1:
+    n += 1
+print(f"Smallest solution: n = {n}")
+
+print()
+
+# Example 3: Find all solutions to x^2 + y^2 ≡ 3 (mod 4)
+print("Example 3: Find all solutions to x^2 + y^2 ≡ 3 (mod 4)")
+solutions = []
+for x in range(4):
+    for y in range(4):
+        if (x^2 + y^2) % 4 == 3:
+            solutions.append((x, y))
+if solutions:
+    print(f"Solutions: {solutions}")
+else:
+    print("No solutions exist!")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p><strong>Exercise:</strong> Try for yourself! Find all solutions to the following congruence equation $8x^2 \equiv 7 \pmod{19}$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Write some code here to solve this equation
+
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Modular Arithmetic</h3>
+<p>We saw in the previous section that solving congruence equations is great, because it reduces to a finite check. When we only care about working with congruences modulo $n$ it's pretty convenient to introduce a complete arithmetic system modulo $n$! For this we define the set of <strong>Integers modulo $n$</strong>:</p>
+$$\mathbb{Z}_n := \{0, 1, 2, \ldots, n-1\}$$
+<p>In $\mathbb{Z}_n$, all arithmetic operations (addition, subtraction, multiplication) are performed modulo $n$. This means after any operation, we take the remainder when dividing by $n$.</p>
+<p><strong>Example:</strong> In $\mathbb{Z}_7$:
+<ul class="indented-list">
+<li>$5 + 4 = 9 \equiv 2 \pmod{7}$, so $5 + 4 = 2$ in $\mathbb{Z}_7$</li>
+<li>$6 \cdot 3 = 18 \equiv 4 \pmod{7}$, so $6 \cdot 3 = 4$ in $\mathbb{Z}_7$</li>
+<li>$2 - 5 = -3 \equiv 4 \pmod{7}$, so $2 - 5 = 4$ in $\mathbb{Z}_7$</li>
+</ul></p>
+<p>Notice that we can always talk about numbers like $100$ in $\mathbb{Z}_{11}$, we mean $1 + \cdots + 1$ (with one hundred $1$'s appearing), which would be $100 = 9*11 + 1 = 1$ in $\mathbb{Z}</em>{11}$.</p>
+<h4>Computing Powers Using Modular Arithmetic</h4>
+<p>When computing large powers like $2^{100} \pmod{7}$, we can use properties of modular arithmetic to simplify:</p>
+Since $2^3 = 8 \equiv 1 \pmod{7}$, we have:
+$$2^{100} = 2^{3 \cdot 33 + 1} = (2^3)^{33} \cdot 2 \equiv 1^{33} \cdot 2 \equiv 2 \pmod{7}$$
+<p>This is much easier than computing $2^{100}$ directly!</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# SageMath provides the Mod() function for working in Z_n
+# Mod(a, n) represents the element a in Z_n
+
+# Working in Z_7
+a = Mod(2, 7)
+print(f"a = {a} in Z_7")
+print(f"Type: {type(a)}")
+
+print()
+
+# Arithmetic in Z_7
+b = Mod(5, 7)
+print(f"In Z_7:")
+print(f"  5 + 4 = {b + Mod(4, 7)}")
+print(f"  6 * 3 = {Mod(6, 7) * Mod(3, 7)}")
+print(f"  2 - 5 = {Mod(2, 7) - Mod(5, 7)}")
+</script>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Computing large powers efficiently
+# Let's compute 2^100 mod 7
+
+# Method 1: Using the % operator
+result1 = (2**100) % 7
+print(f"2^100 mod 7 = {result1}")
+
+print()
+
+# Method 2: Using power_mod function (more efficient for very large powers)
+result2 = power_mod(2, 100, 7)
+print(f"Using power_mod: 2^100 mod 7 = {result2}")
+
+print()
+
+# Method 3: Using Mod() objects
+a = Mod(2, 7)
+result3 = a^100
+print(f"Using Mod objects: 2^100 in Z_7 = {result3}")
+
+print()
+
+# Let's verify our hand calculation: 2^3 mod 7
+print(f"Verification: 2^3 mod 7 = {(2**3) % 7}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Practice Problems</h3>
+<p>Here are some problems to help you practice working with congruences and modular arithmetic.</p>
+</div>
+
+<div class="markdown-cell">
+<h5>Problem 1</h5>
+<p>Compute $4^{11} - 90 \cdot 17 + 5^3 \pmod{13}$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Run this SageCell to find the answer
+
+print((4**11 - 90*17 + 5**3) % 13)
+</script>
+</div>
+
+<div class="markdown-cell">
+<h5>Problem 2</h5>
+<p>Solve $7x = 5$ in $\mathbb{Z}_{18}$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Run this SageCell to find the answer
+
+n = 18
+solutions = []
+for x in range(n):
+    if (7*x) % n == 5 % n:
+        solutions.append(x)
+        
+print(solutions)
+</script>
+</div>
+
+<div class="markdown-cell">
+<h5>Problem 3</h5>
+<p>Find all solutions $(x, y)$ to $y^2 + x^3 \equiv 1 \pmod{5}$ where $x,y \in \mathbb{Z}_{5}$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Run this SageCell to find the answer
+
+solutions = []
+for x in range(5):
+    for y in range(5):
+        if (y**2 + x**3) % 5 == 1:
+            solutions.append((x, y))
+
+print(f"Solutions (x, y): {solutions}")
+print(f"Total number of solutions: {len(solutions)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>---</p>
+<h4>Random Practice Problems</h4>
+<p>Use the cells below to generate random practice problems. Run the first cell to generate a problem, then run the second cell to see the answer.</p>
+</div>
+
+<div class="markdown-cell">
+<p><strong>Random Problem Type 1:</strong> Arithmetic with modular operations</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Generate a random arithmetic problem
+a = randint(2, 20)
+b = randint(2, 15)
+c = randint(10, 50)
+d = randint(5, 30)
+n = randint(7, 25)
+
+print(f"Compute: {a}^{b} - {c}*{d} + {randint(2,10)}^{randint(2,5)} (mod {n})")
+</script>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Run this cell for the answer
+# (Make sure to run the problem generation cell first!)
+
+result = (a**b - c*d + randint(2,10)**randint(2,5)) % n
+print(f"Answer: {result}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p><strong>Random Problem Type 2:</strong> Solve a linear congruence equation</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Generate a random linear congruence equation
+n = randint(15, 40)
+a = randint(2, n-1)
+b = randint(1, n-1)
+
+print(f"Solve: {a}x ≡ {b} (mod {n})")
+</script>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Run this cell for the answer
+# (Make sure to run the problem generation cell first!)
+
+solutions = []
+for x in range(n):
+    if (a*x) % n == b % n:
+        solutions.append(x)
+
+if solutions:
+    print(f"Solution(s): x ≡ {solutions[0]} (mod {n})")
+    if len(solutions) > 1:
+        print(f"Note: There are {len(solutions)} solutions in the range [0, {n-1}]: {solutions}")
+else:
+    print("No solution exists")
+    print(f"This happens because gcd({a}, {n}) = {gcd(a, n)} does not divide {b}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>---</p>
+<h4>Coding Challenge</h4>
+<p>Write a function <code>find_order(a, n)</code> that finds the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{n}$, assuming such a $k$ exists. This value $k$ is called the <strong>order</strong> of $a$ modulo $n$.</p>
+<p><strong>Requirements:</strong>
+<ul class="indented-list">
+<li>The function should take two parameters: <code>a</code> (the base) and <code>n</code> (the modulus)</li>
+<li>Return the smallest positive integer $k$ where $a^k \equiv 1 \pmod{n}$</li>
+<li>If no such $k$ exists within a reasonable range (say, $k \leq n$), return <code>None</code></li>
+</ul></p>
+<p><strong>Test your function:</strong>
+<ul class="indented-list">
+<li><code>find_order(3, 7)</code> should return <code>6</code></li>
+<li><code>find_order(2, 7)</code> should return <code>3</code></li>
+<li><code>find_order(5, 12)</code> should return <code>2</code></li>
+</ul></p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Write your function here
+
+def find_order(a, n):
+    """
+    Find the smallest positive integer k such that a^k ≡ 1 (mod n).
+    
+    Parameters:
+    a : int - the base
+    n : int - the modulus
+    
+    Returns:
+    int - the order of a modulo n, or None if not found
+    """
+    # Your code here
+    pass
+
+# Test cases
+print(f"find_order(3, 7) = {find_order(3, 7)}")  # Expected: 6
+print(f"find_order(2, 7) = {find_order(2, 7)}")  # Expected: 3
+print(f"find_order(5, 12) = {find_order(5, 12)}")  # Expected: 2
+</script>
+</div>
+
+
+<hr style="margin-top: 40px; margin-bottom: 20px;">
+<p style="text-align: center;">
+    <a href="lecture-notes.html" style="font-size: 1.1em;">← Back to Lecture Notes</a>
+</p>
+
+</body>
+</html>
