@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Units, Order and Fermat's Little Theorem</title>
+    <style> body { margin: 60px;} </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        // Create separate linked groups for each section
+        sagecell.makeSagecell({
+            inputLocation: '.sage-section-0',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Units, Order and Fermat's Little Theorem</h1>
+<p>In this lecture, we explore units in modular arithmetic, the concept of order, and a really cool result in elementary number theory: Fermat's Little Theorem.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Modular Arithmetic in $\mathbb{Z}_n$</h3>
+<p>Recall that $\mathbb{Z}_n = \{0, 1, 2, \ldots, n-1\}$ represents the integers modulo $n$. In this system, all arithmetic operations are performed modulo $n$.</p>
+<p>In SageMath, we use <code>Mod(a, n)</code> to work with elements of $\mathbb{Z}_n$. This allows us to perform modular arithmetic easily.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Example of modular arithmetic in SageMath
+# Working in Z_7
+
+a = Mod(5, 7)
+b = Mod(3, 7)
+
+print(f"In Z_7:")
+print(f"5 + 3 = {a + b}")
+print(f"5 * 3 = {a * b}")
+print(f"5^2 = {a^2}")
+print(f"5 - 3 = {a - b}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Units Modulo $n$</h3>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Unit)</p>
+    <p>An element $a \in \mathbb{Z}_n$ is called a <b>unit modulo $n$</b> if there exists an element $b \in \mathbb{Z}_n$ such that $ab \equiv 1 \pmod{n}$. In this case, we say $b$ is the <b>multiplicative inverse</b> of $a$ modulo $n$.</p>
+</div>
+<p><strong>Examples:</strong>
+<ul class="indented-list">
+<li>In $\mathbb{Z}_7$, the element $5$ is a unit because $5 \cdot 3 = 15 \equiv 1 \pmod{7}$.</li>
+<li>In $\mathbb{Z}_{12}$, the element $5$ is a unit because $5 \cdot 5 = 25 \equiv 1 \pmod{12}$.</li>
+<li>In $\mathbb{Z}_{12}$, the element $6$ is <strong>not</strong> a unit (no integer $b$ satisfies $6b \equiv 1 \pmod{12}$).</li>
+</ul></p>
+<p>Again, SageMath can compute inverses.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Modular inverses. What happens if we try to compute the inverse of a number which is not a unit? 
+print(f"\nInverse of 5 mod 7: {Mod(5, 7)^(-1)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>The following lemma characterizes exactly which elements are units.
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Lemma</p>
+    <p>An element $a$ is a unit modulo $n$ if and only if $\gcd(a, n) = 1$.</p>
+</div></p>
+<div class="proof">
+     <p><i>Proof:</i>
+<p>Observe there exists a solution to the congruence equation $ax \equiv 1 \pmod{n}$ if and only if there is some integer $y$ such that $1 - ax = ny$ which happens if and only if there is a solution to the linear diophantine equation (LDE) $ax + ny = 1$. By previous work, we know this LDE has a solution if and only if $\gcd(a,n) = 1$.</p>
+<p><span style="float: right;">□</span></p>
+</div></p>
+</div>
+
+<div class="markdown-cell">
+<h3>Order of Elements</h3>
+<h4>Exploration: Patterns in Powers Modulo $n$</h4>
+<p>Before we define order formally, let's explore what happens when we compute successive powers of an integer modulo $n$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Explore powers of integers modulo n
+# Let's see what happens with 2^k mod 7
+
+a = 2
+n = 7
+
+print(f"Powers of {a} modulo {n}:")
+for k in range(1, 50):
+    print(Mod(a,n)^k, end=' ')
+
+# Try a couple different values of a, n and see if you notice any patterns.
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>Notice that for $2^k \pmod{7}$, we eventually get back to $1$. This leads us to the concept of <strong>order</strong>.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Order)</p>
+    <p>Let $a$ be a unit modulo $n$. The <b>order</b> of $a$ modulo $n$, denoted $\text{ord}_n(a)$, is the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{n}$.</p>
+</div>
+<p><strong>Important Note:</strong> The order of $a$ modulo $n$ exists if and only if $a$ is a unit modulo $n$ (i.e., $\gcd(a, n) = 1$). If $a$ is not a unit, then $a^k$ can never equal $1$ modulo $n$ for any positive integer $k$. (Exercise: provide a proof of this!)</p>
+<p><strong>Examples:</strong>
+<ul class="indented-list">
+<li>From our computation above, $\text{ord}_7(2) = 3$ because $2^3 = 8 \equiv 1 \pmod{7}$ and this is the smallest such power.</li>
+<li>For $3$ modulo $10$, notice that $\gcd(3, 10) = 1$, so $3$ is a unit. What is it's order? </li>
+</ul></p>
+</div>
+
+<div class="markdown-cell">
+<h4>Order Modulo Primes</h4>
+<p>When $n$ is a prime number, something special happens. Let's explore this pattern. We can compute $\text{ord}_n(a)$ in Sage as <code>Mod(a,n).multiplicative_order()</code>, but the following code does this by hand (it also uses <code>power_mod</code>, which is another option to compute powers in $\mathbb{Z}_n$).</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Explore orders modulo a prime
+p = 11
+
+print(f"Orders of elements modulo {p}:")
+print("="*40)
+
+for a in range(1, p):
+    # Find the order of a mod p
+    for k in range(1, p + 1):
+        if power_mod(a, k, p) == 1:
+            order = k
+            break
+    print(f"ord_{p}({a}) = {order}")
+
+print("\n" + "="*40)
+
+# Try some other primes! 
+</script>
+</div>
+
+<div class="markdown-cell">
+<p><strong>Observation:</strong> When $p$ is prime, the order of every unit modulo $p$ divides $p - 1$. This is a special case of a more general theorem (Lagrange's theorem in group theory), but we can prove a key lemma that helps explain this pattern.</p>
+</div>
+
+<div class="markdown-cell">
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Lemma</p>
+    <p>Let $a$ be a unit modulo $n$ with order $d = \text{ord}_n(a)$. If $a^k \equiv 1 \pmod{n}$, then $d \mid k$.</p>
+</div>
+<div class="proof">
+     <p><i>Proof:</i>
+<p>Suppose $a^k \equiv 1 \pmod{n}$. By the division algorithm, we can write:
+$$k = qd + r$$
+where $0 \leq r < d$.</p>
+Now, since $a^d \equiv 1 \pmod{n}$ (by definition of order), we have:
+$$a^k = a^{qd + r} = (a^d)^q \cdot a^r \equiv 1^q \cdot a^r \equiv a^r \pmod{n}$$
+But we also know that $a^k \equiv 1 \pmod{n}$, so:
+$$a^r \equiv 1 \pmod{n}$$
+<p>Since $d$ is the <em>smallest</em> positive integer such that $a^d \equiv 1 \pmod{n}$, and we have $0 \leq r < d$ with $a^r \equiv 1 \pmod{n}$, we must have $r = 0$.</p>
+<p>Therefore, $k = qd$, which means $d \mid k$.
+<span style="float: right;">□</span></p>
+</div></p>
+</div>
+
+<div class="markdown-cell">
+<h3>Fermat's Little Theorem</h3>
+<p>The observations we made about orders modulo primes lead us to one of the most important theorems in number theory.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Fermat's Little Theorem)</p>
+    <p>Let $p$ be a prime number, and let $a$ be an integer such that $\gcd(a, p) = 1$. Then:
+    $$a^{p-1} \equiv 1 \pmod{p}$$
+<p>Equivalently, for any integer $a$:
+    $$a^p \equiv a \pmod{p}$$
+    </p>
+</div></p>
+<p><strong>Remarks:</strong>
+<ul class="indented-list">
+<li>This theorem tells us that for any unit $a$ modulo a prime $p$, raising $a$ to the power $p-1$ always gives us $1$ modulo $p$.</li>
+<li>Combined with our lemma above, this explains why all orders modulo $p$ must divide $p-1$: since $a^{p-1} \equiv 1 \pmod{p}$ for all units $a$, and the order $d$ divides any exponent $k$ where $a^k \equiv 1 \pmod{p}$, we must have $d \mid (p-1)$.</li>
+<li>This theorem has important applications in cryptography, particularly in the RSA algorithm.</li>
+</ul></p>
+<strong>Example:</strong> Let $p = 7$ and $a = 2$. Then:
+$$2^{7-1} = 2^6 = 64 \equiv 1 \pmod{7}$$
+<p>Indeed, $64 = 9 \cdot 7 + 1$, so $2^6 \equiv 1 \pmod{7}$.</p>
+</div>
+
+<div class="markdown-cell">
+
+</div>
+
+
+<hr style="margin-top: 40px; margin-bottom: 20px;">
+<p style="text-align: center;">
+    <a href="lecture-notes.html" style="font-size: 1.1em;">← Back to Lecture Notes</a>
+</p>
+
+</body>
+</html>
