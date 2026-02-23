@@ -1,0 +1,59 @@
+\documentclass[12pt]{exam}
+
+\include{mypreamble}
+
+\begin{document}
+
+\title{Problem Set 2}
+\date{Due: February 6th, 5pm}
+\maketitle
+
+
+For each problem, you must give a complete and rigorous proof. Your arguments should be clear, logically ordered, and written in full sentences.
+
+In particular, state all assumptions explicitly and define all notation. Justify every nontrivial step. 
+
+\begin{questions}
+
+\question Prove that the product of two odd integers is odd. 
+
+% Contrapositive
+\question Prove that if $n^2$ is divisible by $3$, then $n$ is divisible by $3$.
+%Test: If $n^2$ is even, then $n$ is even. 
+
+
+% Existential quantifiers
+\question Prove or disprove the following statements.
+\begin{parts}
+    \part $\forall x \in \mbb{R}\,  \exists y \in \mbb{R} : x^2 > y$
+    \part $\exists y \in \mbb{R}\,  \forall x \in \mbb{R} : x^2 > y$. 
+    \part (\emph{Hint: You may use results that we have proven in class. }) 
+        \[ \forall a \in \mbb{Z}, \forall n \in \mbb{Z}_{> 0}: \left(\gcd(a,n) = 1 \implies (\exists x \in \mbb{Z} \colon n \mid 1 - ax)\right). \]
+
+\end{parts}
+
+\question Prove that for all integer $n \geq 1$, the following formula holds
+    \[ 1\cdot 2 + 2 \cdot 3 + \cdots + n\cdot(n+1) = \frac{n(n+1)(n+2)}{3}. \]
+
+
+% Strong induction
+\question Prove that every integer $n > 1$ is either prime or can be written as a product of prime numbers. \emph{Hint: Use strong induction. }
+
+% Direct proof. Induction. Contradiction
+\question Let $n$ be an odd integer. We say that $n$ is Type 1 (respectively Type 3) if $n$ can be written as $4k + 1$ (respectively $4k + 3$) for some integer $k$. 
+\begin{parts}
+    \part Let $n, m$ be odd integers. Consider the statement  ``$nm$ is a Type 3 integer only if \emph{exactly one} of $n, m$ is a Type 3 integer". Write this as an ``If... then..." statement, and give a direct proof, using only the definition. 
+    \part Prove by induction the statement that if $x_1, \ldots, x_n$ are odd integers such that the product $\displaystyle \prod_{i =1}^n x_i = x_1\cdot x_2 \cdots x_n$ is a Type 3 integer, then \emph{at least} one of $x_1, x_2, \ldots, x_n$ is a Type 3 integer. 
+    \part Prove that there are infinitely many prime numbers that are Type 3. \emph{Hint: Modify Euclid's proof that there are infinitely many primes by considering numbers $4p_1\cdots p_n + 3$. }
+\end{parts}
+
+% Cases. 
+\question Let $i$ be an integer, and let $P_i$ be the statement ``There are infinitely prime numbers of the form $3k + i$ for some integer $k$".
+\begin{parts}
+    \part Prove that $P_i \implies P_{i + 3}$. 
+    \part Write down the statement $P_1 \lor P_2$ (where $\lor$ is the logical or) as a sentence, and prove it. In your proof, you may use that there are infinitely many prime numbers. 
+\end{parts}
+
+
+
+\end{document}

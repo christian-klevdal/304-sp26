@@ -1,0 +1,68 @@
+\documentclass[12pt]{exam}
+
+\include{mypreamble}
+
+\begin{document}
+
+\title{Problem Set 3}
+\date{Due: February 13th, 5pm}
+\maketitle
+
+
+\begin{questions}
+
+\section{Formal proofs}
+For each problem in this section, you must give a complete and rigorous proof. Your arguments should be clear, logically ordered, and written in full sentences.
+
+In particular, state all assumptions explicitly and define all notation. Justify every nontrivial step. 
+
+\question[1] Let $s, t$ be positive odd integers such that $s > t$ and $s,t$ are relatively prime (i.e.\ $\gcd(s,t) = 1$). Show that 
+    \[ st, \quad \frac{s^2 - t^2}{2}, \quad \text{ and } \quad \frac{s^2 + t^2}{2} \]
+are {pairwise relatively prime} (i.e.\ the $\gcd$ of any two of them is $1$). 
+
+
+\question[1] Prove that $\sqrt{3}$ is irrational. 
+
+\question[1] Prove that $\log_{10}(5)$ is irrational 
+
+\question[2] Suppose that $x,y, z$  are positive integers such that $\gcd(x,y,z) = 1$ and satisfy
+    \[ x^2 + 2y^2 = z^2. \]
+\begin{parts}
+    \part Prove that $x,z$ have the same parity (i.e. are both either even or odd). \emph{Hint: Rearrange into an equation $2y^2 = z^2 - x^2$.}
+    \part Prove that $y$ is even. 
+\end{parts}
+
+\newpage 
+
+\section{Demonstrations}
+For problems in this section, you still need to give complete mathematical reasoning to support your answers. I should be able to follow and understand your work, but it doesn't have to be organized into a formal proof. 
+
+\question[3] Let $\ZZ[\sqrt{-5}] = \{a + b\sqrt{-5} \colon a,b \in \ZZ\} \subseteq \CC$, and consider the function
+    \[ N \colon \ZZ[\sqrt{-5}] \to \ZZ \qquad N(a + b \sqrt{-5}) = a^2 + 5b^2 \]
+\begin{parts}
+    \part Show that if $x, y \in \ZZ[\sqrt{-5}]$ then both $x + y$ and $x\cdot y$ are in $\ZZ[\sqrt{-5}]$. 
+    \part Show that $N$ satisfies the following properties:
+            \begin{enumerate}[(i)]
+                \item $N(x) \geq 0$ for all $x \in \ZZ[\sqrt{-5}]$ and $N(x) = 0$ if and only if $x = 0$.
+                \item $N(xy) = N(x)N(y)$ for all $x,y \in \ZZ[\sqrt{-5}]$. 
+            \end{enumerate}
+    \part An element $x \in \ZZ[\sqrt{-5}]$ is a called a \emph{unit} if there exists $y$ such that $x\cdot y = 1$. Show that $x$ is a unit if and only if $N(x) = 1$, and use this to find all units in $\ZZ[\sqrt{-5}]$.  
+    \part An element $p \in \ZZ[\sqrt{-5}]$ is called \emph{prime} if whenever $p = x\cdot y$ for some $x, y \in \ZZ[\sqrt{-5}]$, either $x$ or $y$ is a unit. 
+    \part Determine which of the elements $2, 3, 5, 7, 1 + \sqrt{-5}, 2 - 3\sqrt{-5}$ are prime. %Show that the elements $2, 3, 1 + \sqrt{-5}$ and $1-\sqrt{-5}$ are 
+    \part Show that $6$ does not have a unique factorization into primes. (Part of this exercise is for you to formulate what unique prime factorization means in $\ZZ[\sqrt{-5}]$!) 
+\end{parts}
+
+\section{Explorations}
+In this section, I'm looking for answers that are supported by evidence, but you don't have to prove your answers. 
+
+\question[1] Consider the equation $6x + 15y + 27z = d$. 
+\begin{parts} 
+    \part What are all of the integer solutions when $d = 12$? 
+    \part Make a conjecture to answer the following question: For which $d \in \ZZ$ does $6x + 15y + 27z = d$ have a solution (in the integers)?
+\end{parts}
+
+\question[1] Let $p > 3$ be a prime integer. When does $p$ remain prime as an element of $\ZZ[\sqrt{-5}]$? Compile a list of primes up to $100$, and determine if they remain prime in $\ZZ[\sqrt{-5}]$. Do you have a conjecture for which $p$ remain prime? \emph{Hint:  Talk to me if you need help getting started, and I strongly recommend using SageMath to do this.} 
+
+\question (Bonus) \emph{This question is optional, it will not be graded and is here for fun \smiley{}.}  Generalized the above exercise to $\ZZ[\sqrt{d}]$ for $d \in \ZZ$ squarefree. 
+\end{questions}
+\end{document}

@@ -1,0 +1,125 @@
+\documentclass[12pt]{exam}
+
+\include{mypreamble}
+
+
+
+% Here's where you edit the Class, Exam, Date, etc.
+\newcommand{\class}{Math 304}
+\newcommand{\term}{Spring 2026}
+\newcommand{\examnum}{Midterm 1}
+\newcommand{\examdate}{\, }
+\newcommand{\timelimit}{50 minutes}
+
+%\renewcommand{\%}{\texttt{\%}}
+\parindent 0ex
+
+
+\begin{document}
+
+% These commands set up the running header on the top of the exam pages
+\pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{\class}{\examnum\ - Page \thepage\ of \numpages}{\examdate}
+\runningheadrule
+
+\begin{flushright}
+\begin{tabular}{p{2.8in} r l}
+\textbf{\class} & \textbf{Name (Print):} & \makebox[2in]{\hrulefill}\\
+\textbf{\term} &&\\
+\textbf{\examnum} & ID: & \makebox[2in]{\hrulefill} \\
+\textbf{\examdate} &&\\
+\textbf{Time Limit: \timelimit} & \emph{Score:} & \makebox[0.5in]{\hrulefill}
+\end{tabular}\\
+\end{flushright}
+\rule[1ex]{\textwidth}{.1pt}
+
+
+This exam contains \numpages\ pages (including this cover page) and
+\numquestions\ problems.  Enter
+all requested information on the top of this page. It contains \numpoints\ points. \\
+
+This test is closed book and closed note. You are required to show all of your work on each problem on this exam, and provide explanations of your reasoning where asked. The following rules apply:\\
+
+\begin{itemize}
+
+\item Please show all of your work as partial credit will be given where appropriate, and there 
+may be no credit given for problems where there is no work shown.
+
+\item For problems that ask you to prove something, you must give a complete proof. Your arguments should be clear, logically ordered, and justification must be given for each non-trivial step. 
+
+\item For each proof, please \textbf{state which proof techniques you are using}. This includes direct, contradiction, contrapositive, and induction proofs. 
+
+%\item You may \textbf{not} use scratch paper. Ample space has been supplied for each problem, and you must complete the problem in the given space (you do not have to use all of the space given). 
+
+\end{itemize}
+
+\vspace{2cm}
+
+
+\textbf{Notation:}
+\begin{itemize}
+    \item If $n \in \mathbb{Z}_{>0}$ and $a,b \in \ZZ$ then $a \equiv b \pmod{n}$ means that $n | (b-a)$.
+	\item If $n \in \mathbb{Z}_{>0}$ then $\mathbb{Z}_n = \{0,1,\ldots, n-1\}$ is the set of integers modulo $n$. 
+    \item If $n \in \mathbb{Z}_{>0}$ and $a\in \ZZ$ we write $a\%n$ for the remainder of the Euclidean division of $a$ by $n$. This is unique element of $\mathbb{Z}_n$ such that $a \equiv a\% n \pmod{n}$. 
+\end{itemize}
+
+
+\begin{questions}
+
+\addpoints
+
+\newpage
+\question[10] 
+
+\begin{parts}
+    \part Find $\gcd(71, 33)$ using the Euclidean algorithm. 
+    \vfill
+    \part Solve the congruence equation $33x \equiv 5 \pmod{71}$
+    \vfill
+    
+\end{parts}
+
+\newpage
+\question[10] Let $n$ be a positive integer such that $n^2$ has exactly three positive prime divisors. Prove that $n$ is the square of a prime number.  
+
+\newpage
+\question[10] Prove that if $p>3$ is a prime then $6 \mid (p^2 - 1)$. 
+
+\vfill
+
+\newpage
+\question[10] Congruences computation. Let $a, b \in \mathbb{Z}$ and $n \in \mathbb{Z}_{>0}$. Prove or disprove the following statements about congruences modulo $n$. 
+\begin{parts}
+    \part Compute $(3^{47} - 25)\%28$, that is, find the integer $x$ with $0 \leq x < 28$ such that $3^{47} - 25 \equiv x \pmod{22}$. 
+    \vfill 
+
+    \part For which positive integers $n$ is the statement \[ \forall a \in \{1, \ldots, n-1\} \exists x \in \ZZ : ax \equiv 1 \pmod{n}\] true? 
+    
+    \vfill 
+\end{parts}
+
+
+
+\newpage 
+\question[10] Consider the following statement: If $x, y$ are integers such that $x \equiv y \pmod{3}$, then $x^{3^n} \equiv y^{3^n} \pmod{3^{n+1}}$ for every integer $n \geq 0$. 
+
+Suppose you are going to prove the statement by induction on the exponent $n$. 
+\begin{parts}
+\part Write down the statement that you need to prove for the \textbf{base case}, and explain why it is true. 
+
+\vfill 
+
+\part Write down the statement that needs to proven in the \textbf{inductive step} and underline the \textbf{inductive hypothesis}.
+
+\vfill
+
+
+\newpage 
+\part Prove the inductive step. \emph{Hint: You may want to use that $a \equiv b \pmod{3^n}$ if and only if $a = b + 3^n\cdot k$ for some $k \in \mathbb{Z}$. }
+
+\end{parts}
+
+
+\end{questions}
+\end{document}

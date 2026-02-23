@@ -1,0 +1,130 @@
+\documentclass[12pt]{exam}
+
+\include{mypreamble}
+
+\begin{document}
+
+\title{Problem Set 1}
+\date{Due: January 30th, 5pm}
+\maketitle
+
+
+\begin{questions}
+
+\question \textbf{Primes in Arithmetic Progressions.}
+
+Let $a,d \in \ZZ_{>0}$, and consider the arithmetic progression
+\[
+a,\, a+d,\, a+2d,\, a+3d,\, \dots
+\]
+
+Using computational experimentation, investigate for which pairs $(a,d)$ the arithmetic progression $a+nd$ contains infinitely many prime numbers. Try at least $6$ different pairs $(a,d)$. 
+
+\emph{You are strongly encouraged to use SageMath.} In SageMath, the expression \texttt{i in Primes()} returns \texttt{True} if $i$ is prime and \texttt{False} otherwise.
+
+Based on your experiments, state a conjecture characterizing all pairs $(a,d)$ for which the arithmetic progression contains infinitely many primes. Provide clear computational evidence supporting your conjecture (for example, tables, plots, or explicit data).
+
+\emph{You are not expected to prove your conjecture.}
+
+\question \textbf{The Well-Ordering Principle.}
+
+Let $S \subseteq \RR$. The \emph{Well-Ordering Principle} for $S$ is the statement:
+
+\begin{quote}
+Every nonempty subset of $S$ has a least element (with respect to the usual order on $\RR$).
+\end{quote}
+
+ Give an explicit example of a nonempty subset $S \subseteq \RR$ for which the Well-Ordering Principle does not hold, and explain carefully why it fails.
+
+\question \textbf{Divisibility Statements.}
+
+Let $a,b,c$ be integers. Determine whether each statement is true or false. If true, give a proof. If false, give a counterexample.
+
+\begin{parts}
+\part If $a \mid c$ and $b \mid c$, then $a+b \mid c$.
+\part If $a \mid b$ and $a \mid c$, then $a \mid (b+c)$.
+\end{parts}
+
+\break 
+
+\question \textbf{Linear Diophantine Equations.}
+
+Find \emph{all} integer solutions to the equation
+\[
+252x + 198y = 18.
+\]
+
+\question \textbf{Congruences.}
+
+Let $a,b \in \ZZ$ and let $n \in \ZZ_{>0}$. We say that $a \equiv b \pmod n$ or that $a$ is \emph{congruent to $b$ modulo $n$} if $n \mid (b-a)$. Using this definition, prove the following properties. 
+
+\begin{parts}
+
+\part Find $a \in \{0,1, \ldots, 11\}$ such that $7^5 + a \equiv 2 \pmod{12}$.
+
+\part Using the definition, prove the following properties:
+\begin{enumerate}[(i)]
+\item $a \equiv a \pmod{n}$
+\item If $a \equiv b \pmod{n}$, then $b \equiv a \pmod{n}$
+\item If $a \equiv b \pmod{n}$ and $b \equiv c \pmod{n}$, then $a \equiv c \pmod{n}$
+\item If $a \equiv b \pmod{n}$, then $a+c \equiv b+c \pmod{n}$ for all $c \in \ZZ$.
+\end{enumerate}
+\end{parts}
+
+\question \textbf{The Euclidean Algorithm.}
+
+Let $a$ and $b$ be positive integers with $a>b$, and let
+\[
+b = r_0, r_1, r_2, \dots
+\]
+be the successive remainders in the Euclidean algorithm applied to $a$ and $b$.
+
+\begin{parts}
+\part Show that after every two steps, the remainder is reduced by at least one half. In other words, verify that
+\[
+r_{i+2} < \frac{1}{2} r_i
+\]
+for every $i=0,1,2,\dots$.
+
+\part Conclude that the Euclidean algorithm terminates in at most $2\log_2(b)$ steps, where $\log_2$ denotes the logarithm to the base $2$.
+
+\part Deduce that the number of steps is at most seven times the number of decimal digits of $b$.
+
+\emph{Hint: What is the value of $\log_2(10)$?}
+\end{parts}
+
+\question \textbf{The $3n+1$ Algorithm.}
+
+The \emph{$3n+1$ algorithm} works as follows. Start with any positive integer $n$.
+\begin{itemize}
+\item If $n$ is even, divide it by $2$.
+\item If $n$ is odd, replace it with $3n+1$.
+\end{itemize}
+Repeat this process indefinitely.
+
+For example, starting with $5$ we obtain
+\[
+5,16,8,4,2,1,4,2,1,4,2,1,\dots
+\]
+and starting with $7$ we obtain
+\[
+7,22,11,34,17,52,26,13,40,20,10,5,16,8,4,2,1,4,2,1,\dots
+\]
+
+Notice that if the algorithm ever reaches $1$, the sequence repeats $4,2,1$ forever.
+
+In general, one of the following two possibilities occurs:
+\begin{enumerate}
+\item The sequence eventually repeats a number that appeared earlier. In this case, the block of numbers between the two occurrences repeats indefinitely. We say that the algorithm \emph{terminates} at the last nonrepeated value, and the number of distinct entries is called the \emph{length} of the algorithm.
+\item The sequence never repeats any value, in which case we say that the algorithm does not terminate.
+\end{enumerate}
+
+\begin{parts}
+\part Verify that the algorithm terminates at $1$ for the starting values $5$ and $7$, and compute the length of the algorithm in each case.
+\part Write a short program or use computational software to test the algorithm for many starting values. What do you observe?
+\part State a conjecture about whether the $3n+1$ algorithm terminates for all positive integers.
+\end{parts}
+
+\end{questions}
+
+\end{document}
