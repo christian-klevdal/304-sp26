@@ -73,7 +73,7 @@
 <div class="markdown-cell">
 <h3>The Number of Units Modulo $n$</h3>
 <p>Recall that an element $a \in \mathbb{Z}_n$ is a <strong>unit</strong> if there exists $b \in \mathbb{Z}_n$ such that $ab \equiv 1 \pmod{n}$. We've seen that $a$ is a unit modulo $n$ if and only if $\gcd(a, n) = 1$.</p>
-<p>A natural question arises: <strong>How many units are there modulo $n$?</strong></p>
+<p>A natural question arises: <em>How many units are there modulo $n$?</em></p>
 <p>This question leads us to one of the most important functions in number theory.</p>
 <div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
     <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Euler's Phi Function)</p>
@@ -117,7 +117,7 @@ print(f"φ({n}) = {len(units)}")
 </div>
 
 <div class="markdown-cell">
-<p>One of the most useful properties of Euler's phi function is that it is <strong>multiplicative</strong>.</p>
+<p>One of the most useful properties of Euler's phi function is that it is <em>multiplicative</em>.</p>
 <div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
     <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Multiplicativity of $\varphi$)</p>
     <p>If $\gcd(m, n) = 1$, then $\varphi(mn) = \varphi(m) \cdot \varphi(n)$.</p>
