@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euler's Theorem and the Chinese Remainder Theorem</title>
+    <style> body { margin: 60px;} </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        // Create separate linked groups for each section
+        sagecell.makeSagecell({
+            inputLocation: '.sage-section-0',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+        sagecell.makeSagecell({
+            inputLocation: '.sage-section-1',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Euler's Theorem and the Chinese Remainder Theorem</h1>
+<p>This notebook introduces some of the finer aspects of modular arithmetic, including Euler's phi function, Euler's theorem, the Chinese Remainder Theorem, and efficient methods for computing large powers.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>The Number of Units Modulo $n$</h3>
+<p>Recall that an element $a \in \mathbb{Z}_n$ is a <strong>unit</strong> if there exists $b \in \mathbb{Z}_n$ such that $ab \equiv 1 \pmod{n}$. We've seen that $a$ is a unit modulo $n$ if and only if $\gcd(a, n) = 1$.</p>
+<p>A natural question arises: <strong>How many units are there modulo $n$?</strong></p>
+<p>This question leads us to one of the most important functions in number theory.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Euler's Phi Function)</p>
+    <p>For a positive integer $n$, <b>Euler's phi function</b> (or <b>totient function</b>), denoted $\varphi(n)$ or $\phi(n)$, is defined as the number of integers in $\{1, 2, 3, \ldots, n\}$ that are relatively prime to $n$.</p>
+</div>
+<p><strong>Examples:</strong>
+<ul class="indented-list">
+<li>$\varphi(1) = 1$ (only 1 is relatively prime to 1)</li>
+<li>$\varphi(6) = 2$ (the numbers 1 and 5 are relatively prime to 6)</li>
+<li>$\varphi(7) = 6$ (all of 1, 2, 3, 4, 5, 6 are relatively prime to 7 since 7 is prime)</li>
+<li>$\varphi(12) = 4$ (the numbers 1, 5, 7, 11 are relatively prime to 12)</li>
+</ul></p>
+<p><strong>For prime $p$:</strong> $\varphi(p) = p - 1$ since every number from 1 to $p-1$ is relatively prime to $p$.</p>
+<p><strong>For prime powers:</strong> $\varphi(p^k) = p^k - p^{k-1} = p^{k-1}(p - 1)$ since the only numbers not relatively prime to $p^k$ are the multiples of $p$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Computing Euler's phi function in SageMath: use euler_phi
+
+# For various values of n
+for n in [1, 6, 7, 12, 15, 20, 100]:
+    print(f"φ({n}) = {euler_phi(n)}")
+
+print("\n" + "="*40 + "\n")
+
+# For prime powers
+print("Prime powers:")
+print(f"φ(7) = {euler_phi(7)}")
+print(f"φ(7²) = φ(49) = {euler_phi(49)}")
+print(f"φ(7³) = φ(343) = {euler_phi(343)}")
+
+print("\n" + "="*40 + "\n")
+
+# Finding which numbers are units mod 12
+n = 12
+units = [a for a in range(1, n+1) if gcd(a, n) == 1]
+print(f"Units modulo {n}: {units}")
+print(f"φ({n}) = {len(units)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>One of the most useful properties of Euler's phi function is that it is <strong>multiplicative</strong>.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Multiplicativity of $\varphi$)</p>
+    <p>If $\gcd(m, n) = 1$, then $\varphi(mn) = \varphi(m) \cdot \varphi(n)$.</p>
+</div>
+<p>We will prove this later. For now, we can observe that it gives an efficient way to compute $\varphi(n)$ when we have a prime factorization of $n$: If $n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$ is the prime factorization of $n$, then:</p>
+$$\varphi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right) = p_1^{a_1-1}(p_1 - 1) \cdot p_2^{a_2-1}(p_2 - 1) \cdots p_k^{a_k-1}(p_k - 1)$$
+<p><strong>Example:</strong> $\varphi(12) = \varphi(2^2 \cdot 3) = \varphi(2^2) \cdot \varphi(3) = 2^1(2-1) \cdot (3-1) = 2 \cdot 2 = 4$</p>
+<p><strong>Exercise:</strong> Give an example to show that $\varphi(nm) \neq \varphi(n)\varphi(m)$ if $\gcd(n,m) \neq 1$.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Verifying the multiplicative property
+
+m = 9  # 3^2
+n = 8  # 2^3
+
+print(f"gcd({m}, {n}) = {gcd(m, n)}")
+print(f"φ({m}) = {euler_phi(m)}")
+print(f"φ({n}) = {euler_phi(n)}")
+print(f"φ({m}) × φ({n}) = {euler_phi(m) * euler_phi(n)}")
+print(f"φ({m*n}) = {euler_phi(m*n)}")
+print(f"\nVerified: φ({m*n}) = φ({m}) × φ({n})")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p><strong>Exercise:</strong> Give an example to show that $\varphi(nm) \neq \varphi(n)\varphi(m)$ if $\gcd(n,m) \neq 1$.</p>
+<h3>Euler's Theorem</h3>
+<p>Euler's phi function leads us to a powerful generalization of Fermat's Little Theorem.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Euler's Theorem)</p>
+    <p>If $\gcd(a, n) = 1$, then $a^{\varphi(n)} \equiv 1 \pmod{n}$.</p>
+</div>
+<p><strong>Remarks:</strong>
+<ul class="indented-list">
+<li>When $n = p$ is prime, we have $\varphi(p) = p - 1$, so Euler's theorem reduces to Fermat's Little Theorem: $a^{p-1} \equiv 1 \pmod{p}$.</li>
+<li>This theorem tells us that raising any unit $a$ modulo $n$ to the power $\varphi(n)$ always gives 1.</li>
+<li>This is fundamental to the RSA cryptosystem!</li>
+</ul></p>
+<strong>Example:</strong> Let $n = 12$ and $a = 5$. Since $\gcd(5, 12) = 1$ and $\varphi(12) = 4$:
+$$5^4 = 625 = 52 \cdot 12 + 1 \equiv 1 \pmod{12}$$
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Verifying Euler's Theorem
+
+n = 12
+a = 5
+
+phi_n = euler_phi(n)
+print(f"n = {n}, a = {a}")
+print(f"gcd({a}, {n}) = {gcd(a, n)}")
+print(f"φ({n}) = {phi_n}")
+print(f"{a}^{phi_n} mod {n} = {power_mod(a, phi_n, n)}")
+
+print("\n" + "="*40 + "\n")
+
+# Try with different values
+for n in [15, 20, 25]:
+    a = 7
+    if gcd(a, n) == 1:
+        phi_n = euler_phi(n)
+        result = power_mod(a, phi_n, n)
+        print(f"n={n}: {a}^{phi_n} ≡ {result} (mod {n})")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h1>The Chinese Remainder Theorem</h1>
+<p>Often in number theory, we need to solve systems of congruence equations. (This will be the case when we want to prove the multiplicativity of Euler's phi function!) The Chinese Remainder Theorem provides a powerful method for doing so.</p>
+<h4>Example: Solving Simultaneous Congruences</h4>
+Suppose we want to find all integers $x$ that satisfy:
+$$\begin{cases}
+x \equiv 2 \pmod{5} \\
+x \equiv 3 \pmod{7}
+\end{cases}$$
+<p><em>Solution by hand:</em>
+From the first equation, $x = 5k + 2$ for some integer $k$.</p>
+Substituting into the second equation:
+$$5k + 2 \equiv 3 \pmod{7}$$
+$$5k \equiv 1 \pmod{7}$$
+<p>Since $5 \cdot 3 = 15 \equiv 1 \pmod{7}$, we have $k \equiv 3 \pmod{7}$, so $k = 7j + 3$.</p>
+Therefore:
+$$x = 5(7j + 3) + 2 = 35j + 17$$
+<p>So $x \equiv 17 \pmod{35}$.</p>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Verify the solution
+x = 17
+print(f"x = {x}")
+print(f"x mod 5 = {x % 5} (should be 2)")
+print(f"x mod 7 = {x % 7} (should be 3)")
+
+print("\n" + "="*40 + "\n")
+
+# We can use SageMath's CRT function
+result = crt(2, 3, 5, 7)
+print(f"Using CRT: x ≡ {result} (mod 35)")
+
+# Verify
+print(f"Verification: {result} mod 5 = {result % 5}, {result} mod 7 = {result % 7}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Chinese Remainder Theorem)</p>
+    <p>Let $n_1, n_2, \ldots, n_k$ be pairwise relatively prime positive integers (i.e., $\gcd(n_i, n_j) = 1$ for $i \neq j$). Then the system of congruences:
+    $$\begin{cases}
+    x \equiv a_1 \pmod{n_1} \\
+    x \equiv a_2 \pmod{n_2} \\
+    \vdots \\
+    x \equiv a_k \pmod{n_k}
+    \end{cases}$$
+    has a unique solution modulo $N = n_1 n_2 \cdots n_k$.</p>
+</div>
+<div class="proof">
+     <p><i>Proof:</i>
+<p>We prove the theorem for $k = 2$; the general case follows by induction.</p>
+Let $n_1$ and $n_2$ be relatively prime, and consider:
+$$\begin{cases}
+x \equiv a_1 \pmod{n_1} \\
+x \equiv a_2 \pmod{n_2}
+\end{cases}$$
+<strong>Existence:</strong> Since $\gcd(n_1, n_2) = 1$, by Bézout's identity there exist integers $m_1, m_2$ such that:
+$$m_1 n_1 + m_2 n_2 = 1$$
+<p>Define $x = a_1 m_2 n_2 + a_2 m_1 n_1$. Then:
+<ul class="indented-list">
+<li>$x \equiv a_1 m_2 n_2 \equiv a_1 \cdot 1 \equiv a_1 \pmod{n_1}$ (since $m_2 n_2 \equiv 1 \pmod{n_1}$)</li>
+<li>$x \equiv a_2 m_1 n_1 \equiv a_2 \cdot 1 \equiv a_2 \pmod{n_2}$ (since $m_1 n_1 \equiv 1 \pmod{n_2}$)</li>
+</ul></p>
+<p><strong>Uniqueness:</strong> Suppose $x$ and $y$ are both solutions. Then:
+<ul class="indented-list">
+<li>$x \equiv y \pmod{n_1}$, so $n_1 \mid (x - y)$</li>
+<li>$x \equiv y \pmod{n_2}$, so $n_2 \mid (x - y)$</li>
+</ul></p>
+<p>Since $\gcd(n_1, n_2) = 1$, we have $n_1 n_2 \mid (x - y)$, thus $x \equiv y \pmod{n_1 n_2}$.
+<span style="float: right;">□</span></p>
+</div></p>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# More examples of CRT
+
+# Example 1: Three congruences
+a_vals = [2, 3, 1]
+n_vals = [5, 7, 11]
+
+# Using CRT for multiple values
+result = crt(a_vals, n_vals)
+print(f"System:")
+for a, n in zip(a_vals, n_vals):
+    print(f"  x ≡ {a} (mod {n})")
+print(f"\nSolution: x ≡ {result} (mod {5*7*11})")
+
+# Verify
+print("\nVerification:")
+for a, n in zip(a_vals, n_vals):
+    print(f"  {result} mod {n} = {result % n} (should be {a})")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>Notice that the proof of the Chinese Remainder Theorem actually tells you an algorithm to solve simultaneous congruences: Given the congruences equations
+    $$\begin{cases}
+    x \equiv a \pmod{n} \\
+    x \equiv b \pmod{m} \\
+    \end{cases}$$
+where $\gcd(m,n) = 1$
+1) First solve the linear diophantine equation $m\cdot z + n\cdot y = 1$ using the Euclidean algorithm.
+2) Take $x = a \cdot mz + b \cdot ny$ for one solution. 
+3) Any other solution is $x + k\cdot \text{lcm}(m,n)$.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Proof of Theorem (Multiplicativity of $\varphi$)</h3>
+<div class="proof">
+     <p><i>Proof:</i>
+We now have all of the tools needed to sketch the proof of the multiplicativity of $\varphi$. Let $m, n > 2$ be positive integers that are relatively prime. By the Chinese Remainder Theorem, there exists an integer $e \in \mathbb{Z}$ such that $e \equiv 1 \pmod{n}$ and $e \equiv 0 \pmod{m}$. Similarly, there is an integer $f$ such that $e \equiv 0 \pmod{n}$ and $e \equiv 1 \pmod{m}$. Define a function 
+    $$ \psi \colon \mathbb{Z}<em>n \times \mathbb{Z}_m \to \mathbb{Z}</em>{nm}, \qquad \qquad \psi(a,b) = a\cdot e + b\cdot f \mod mn. $$
+<p>Claims:
+1) $\psi$ is a bijection. Indeed, the inverse map sends $x \in \mathbb{Z}_{nm}$ to $(a \mod n, a \mod m)$.
+2) $\psi(a,b)$ is a unit modulo $nm$ if and only if both $a$ is a unit modulo $n$ and $b$ is a unit modulo $m$.</p>
+Thus 
+    $$\varphi(mn) = \#\text{Units modulo }mn = (\#\text{Units modulo }n)\cdot(\#\text{Units modulo }m) = \varphi(n)\varphi(m).$$
+<p><span style="float: right;">□</span></p>
+</div></p>
+</div>
+
+<div class="markdown-cell">
+<h3>Binary Exponentiation</h3>
+<p>When computing large powers like $a^n \bmod m$, directly computing $a^n$ and then taking the remainder is inefficient for large $n$. <em>Binary exponentiation</em> (also called exponentiation by squaring) provides a much faster method.</p>
+<h4>The Idea</h4>
+The key insight is to use the binary representation of the exponent. For example:
+$$a^{13} = a^{1101_2} = a^8 \cdot a^4 \cdot a^1$$
+<p>We can compute this by:
+<ol class="indented-list">
+<li>Starting with 1</li>
+<li>For each bit in the binary representation of $n$ (from right to left):</li>
+</ol>
+   - If the bit is 1, multiply by the current power of $a$
+   - Square the current power of $a$</p>
+<p>This reduces the number of multiplications by quite a bit!</p>
+<h4>Algorithm</h4>
+<p>To compute $a^n \bmod m$:
+<ol class="indented-list">
+<li>Write $n$ in binary: $n = \sum_{i=0}^k b_i 2^i$ where $b_i \in \{0, 1\}$</li>
+<li>Compute $a^{2^0}, a^{2^1}, a^{2^2}, \ldots, a^{2^k}$ modulo $m$ by repeated squaring</li>
+<li>Multiply together the terms where $b_i = 1$</li>
+</ol></p>
+<p><strong>Example:</strong> Compute $3^{13} \bmod 7$:
+<ul class="indented-list">
+<li>$13 = 1101_2 = 8 + 4 + 1$</li>
+<li>$3^1 \equiv 3 \pmod{7}$</li>
+<li>$3^2 \equiv 2 \pmod{7}$</li>
+<li>$3^4 \equiv 4 \pmod{7}$</li>
+<li>$3^8 \equiv 2 \pmod{7}$</li>
+<li>$3^{13} \equiv 3 \cdot 4 \cdot 2 \equiv 24 \equiv 3 \pmod{7}$</li>
+</ul></p>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Implementing binary exponentiation step by step
+
+def binary_exp_verbose(a, n, m):
+    """Compute a^n mod m using binary exponentiation with detailed output"""
+    print(f"Computing {a}^{n} mod {m}")
+    print(f"Binary representation of {n}: {bin(n)}")
+    print()
+    
+    result = 1
+    power = a % m
+    exponent = n
+    step = 0
+    
+    while exponent > 0:
+        if exponent % 2 == 1:  # If current bit is 1
+            result = (result * power) % m
+            print(f"Step {step}: Bit is 1, multiply result by {power}: result = {result}")
+        else:
+            print(f"Step {step}: Bit is 0, skip")
+        
+        power = (power * power) % m
+        exponent = exponent // 2
+        step += 1
+        
+        if exponent > 0:
+            print(f"         Square current power: {power}")
+    
+    print(f"\nFinal result: {a}^{n} ≡ {result} (mod {m})")
+    return result
+
+# Example
+binary_exp_verbose(3, 13, 7)
+</script>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Comparing efficiency: direct computation vs binary exponentiation
+# (For demonstration purposes with smaller numbers)
+
+import time
+
+a, n, m = 2, 1000, 1000000007
+
+# Method 1: Using power_mod (which uses binary exponentiation internally)
+start = time.time()
+result = power_mod(a, n, m)
+time_binary = time.time() - start
+
+print(f"Binary exponentiation: {a}^{n} mod {m} = {result}")
+print(f"Time: {time_binary:.6f} seconds")
+
+print("\n" + "="*40 + "\n")
+
+# The advantage is even more dramatic for very large exponents
+a, n, m = 123456789, 987654321, 1000000007
+result = power_mod(a, n, m)
+print(f"Large example: {a}^{n} mod {m} = {result}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Practice Problems</h3>
+<p>Try these exercises to practice with Euler's phi function, the Chinese Remainder Theorem, and binary exponentiation!</p>
+</div>
+
+<div class="markdown-cell">
+<h4>Random Practice: Euler's Phi Function</h4>
+<p>Run the cell below to generate a random problem, then compute $\varphi(n)$ in the next cell.</p>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Generate a random phi function problem
+
+# Generate random n (as a product of small primes for tractability)
+primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 31]
+num_factors = randint(1, 5)
+selected_primes = sample(primes, num_factors)
+n = prod([p^randint(1, 4) for p in selected_primes])
+
+print(f"Compute φ({n})")
+print(f"\nHint: Prime factorization of {n} is {factor(n)}")
+</script>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Run this cell to see the answer
+
+print(f"φ({n}) = {euler_phi(n)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h4>Random Practice: Chinese Remainder Theorem</h4>
+<p>Run the cell below to generate a random system of congruences.</p>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Generate a random CRT problem
+
+# Choose coprime moduli
+moduli_options = [[3, 5], [5, 7], [3, 7], [5, 11], [7, 11], [3, 5, 7]]
+n_vals = choice(moduli_options)
+
+# Generate random remainders
+a_vals = [randint(0, n-1) for n in n_vals]
+
+print("Solve the system of congruences:")
+for a, n in zip(a_vals, n_vals):
+    print(f"  x ≡ {a} (mod {n})")
+
+print(f"\nFind x modulo {prod(n_vals)}")
+</script>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Run this cell to see the answer
+
+result = crt(a_vals, n_vals)
+N = prod(n_vals)
+
+print(f"Solution: x ≡ {result} (mod {N})")
+
+print("\nVerification:")
+for a, n in zip(a_vals, n_vals):
+    print(f"  {result} mod {n} = {result % n} (should be {a})")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h4>Random Practice: Euler's Theorem Application</h4>
+<p>Run the cell below to generate a problem using Euler's theorem.</p>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Generate a problem using Euler's theorem
+
+n = randint(10, 30)
+a = randint(2, n-1)
+
+# Make sure gcd(a, n) = 1
+while gcd(a, n) != 1:
+    a = randint(2, n-1)
+
+# Generate a large exponent
+k = randint(50, 200)
+
+print(f"Compute {a}^{k} mod {n}")
+print(f"\nHint: φ({n}) = {euler_phi(n)}")
+print(f"Use Euler's theorem to simplify the exponent!")
+</script>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+# Run this cell to see the answer
+
+phi_n = euler_phi(n)
+reduced_exp = k % phi_n
+
+print(f"{a}^{k} ≡ {a}^{{{k} mod {phi_n}}} ≡ {a}^{reduced_exp} (mod {n})")
+print(f"\nFinal answer: {power_mod(a, k, n)}")
+</script>
+</div>
+
+<div class="sage-cell sage-section-1">
+<script type="text/x-sage">
+
+</script>
+</div>
+
+
+<hr style="margin-top: 40px; margin-bottom: 20px;">
+<p style="text-align: center;">
+    <a href="lecture-notes.html" style="font-size: 1.1em;">← Back to Lecture Notes</a>
+</p>
+
+</body>
+</html>

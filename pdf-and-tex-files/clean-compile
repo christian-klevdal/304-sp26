@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Script to compile LaTeX file and clean up auxiliary files
+# Usage: ./clean-compile file.tex
+
+if [ $# -eq 0 ]; then
+    echo "Error: No file specified"
+    echo "Usage: ./clean-compile file.tex"
+    exit 1
+fi
+
+# Get the input file
+TEXFILE="$1"
+
+# Check if file exists
+if [ ! -f "$TEXFILE" ]; then
+    echo "Error: File '$TEXFILE' not found"
+    exit 1
+fi
+
+# Get the base filename (without extension)
+BASENAME="${TEXFILE%.tex}"
+
+# Compile the LaTeX file twice (for references)
+echo "Compiling $TEXFILE..."
+pdflatex "$TEXFILE"
+
+if [ $? -eq 0 ]; then
+    echo "Running pdflatex second time for references..."
+    pdflatex "$TEXFILE"
+    
+    if [ $? -eq 0 ]; then
+        echo "Compilation successful!"
+        
+        # Clean up auxiliary files
+        echo "Cleaning up auxiliary files..."
+        rm -f "${BASENAME}.aux" "${BASENAME}.log" "${BASENAME}.out" "${BASENAME}.synctex.gz"
+        
+        echo "Done! PDF created: ${BASENAME}.pdf"
+    else
+        echo "Error during second compilation"
+        exit 1
+    fi
+else
+    echo "Error during compilation"
+    exit 1
+fi
