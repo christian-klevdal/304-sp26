@@ -16,19 +16,67 @@ For each problem in this section, you must give a complete and rigorous proof. Y
 In particular, state all assumptions explicitly and define all notation. Justify every nontrivial step. 
 
 \begin{questions}
-\question Let $p, q$ be prime numbers and $n = pq$. Suppose $(n, e, d)$ is a valid RSA key triple. Prove that for \emph{any} $M \in \mathbb{Z}_n$, $M^{ed} \equiv M \pmod{n}$.
-
-\question 
+\question[2] Let $p, q$ be prime numbers and $n = pq$. Suppose $(n, e, d)$ is a valid RSA key triple. Prove that for \emph{any} $M \in \mathbb{Z}_n$, $M^{ed} \equiv M \pmod{n}$.
 
 \section{Demonstrations}
 \fullwidth{For problems in this section, you still need to give complete mathematical reasoning to support your answers. I should be able to follow and understand your work, but it doesn't have to be organized into a formal proof. }
 
-\question Hey 
+\question[2] Consider RSA with primes $p = 11$ and $q = 17$. 
+
+\begin{parts}
+\part Compute $n$ and $\phi(n)$ and verify that $e = 7$ is a valid encryption exponent. Then compute the corresponding decryption exponent $d$.
+
+\part Use your public key $(n, e)$ to encrypt the message $M = 5$. 
+
+\part Find the private key $(n, d)$. Use this to decrypt the ciphertext from part (c) and verify you recover $M = 5$. 
+
+\part Code-breaking: Suppose an adversary intercepts a different RSA communication with public key $(n, e) = (221, 5)$ and ciphertext $C = 144$. Find the original plaintext $M$.
+\end{parts}
+
+\textit{Do all calculations by hand!} Problems like this are excellent practice for exams, where you won't have access to computational tools. Show every step of your arithmetic clearly.
+
+\question[1] Suppose $n$ is a positive integer that is a product of two distinct primes $p,q$. Write down a formula to compute $p, q$ in terms of $n, \phi(n)$. 
+
+\question[1] Consider the following naive algorithm for factoring a positive integer $n > 1$:
+
+\begin{verbatim}
+for i = 2, 3, 4, ..., floor(sqrt(n)):
+    if n % i == 0:
+        return i
+    return n  # n is prime
+\end{verbatim}
+
+\begin{parts}
+\part Explain why this algorithm correctly finds the smallest prime factor of $n$ (or determines that $n$ is prime).
+
+\part Show that the number of steps (iterations of the loop) required by this algorithm is $O(\sqrt{n})$. 
+
+\part Show that number of steps (iterations of the loop) required by this algorithm is not $O(n^a)$ for any $a < 1/2$. Conclude that it is not $O(\log n)$. 
+
+\end{parts}
 
 \section{Explorations}
 \fullwidth{In this section, I'm looking for answers that are supported by evidence, but you don't have to prove your answers. }
 
-\question Hey
+\question[1] Write a computer program to implement the RSA encryption and decryption process. Use it to generate a public/private key pair, encrypt a message, and then decrypt it. Show your code and the results of your encryption and decryption.
+
+\question[2] Implement the binary exponentiation algorithm in a programming language of your choice. Use it to compute $3^{123456789} \bmod 1000000007$. Provide a screenshot of your code. 
+
+\question[1] Two spies, Alice and Bob, need to communicate the location of a secret document hidden in a book at the Eisenhower Library. To avoid detection, Alice encrypts the book's title using RSA and sends the ciphertext over an insecure channel. Your mission, should you choose to accept it, is to crack their encryption and discover where the secret lies.
+
+Alice uses RSA with public key $(n, e)$: 
+\begin{verbatim}
+    n = 1156155289961087756632600159458853982244325906947295006670251
+    e = 205330685268124177824406496715391669892316386396231455170263
+\end{verbatim}
+
+The intercepted ciphertext is: 
+\begin{verbatim}
+    c = 993794000282830654630236187138986791355586154841136080810082
+\end{verbatim}
+
+Your task: Decrypt the message, and use the integrification process from class to convert the decrypted integer back into the book's title. What book contains the secret?
+
 
 \end{questions}
 \end{document}
