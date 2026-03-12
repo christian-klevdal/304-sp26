@@ -302,7 +302,7 @@ where $\gcd(m,n) = 1$
 <div class="proof">
      <p><i>Proof:</i>
 We now have all of the tools needed to sketch the proof of the multiplicativity of $\varphi$. Let $m, n > 2$ be positive integers that are relatively prime. By the Chinese Remainder Theorem, there exists an integer $e \in \mathbb{Z}$ such that $e \equiv 1 \pmod{n}$ and $e \equiv 0 \pmod{m}$. Similarly, there is an integer $f$ such that $e \equiv 0 \pmod{n}$ and $e \equiv 1 \pmod{m}$. Define a function 
-    $$ \psi \colon \mathbb{Z}<em>n \times \mathbb{Z}_m \to \mathbb{Z}</em>{nm}, \qquad \qquad \psi(a,b) = a\cdot e + b\cdot f \mod mn. $$
+    $$ \psi \colon \mathbb{Z}_n \times \mathbb{Z}_m \to \mathbb{Z}_{nm}, \qquad \qquad \psi(a,b) = a\cdot e + b\cdot f \mod mn. $$
 <p>Claims:
 1) $\psi$ is a bijection. Indeed, the inverse map sends $x \in \mathbb{Z}_{nm}$ to $(a \mod n, a \mod m)$.
 2) $\psi(a,b)$ is a unit modulo $nm$ if and only if both $a$ is a unit modulo $n$ and $b$ is a unit modulo $m$.</p>
