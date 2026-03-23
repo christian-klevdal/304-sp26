@@ -64,7 +64,7 @@
 
 <div class="markdown-cell">
 <h3>Recall: Order of an Element Modulo $p$</h3>
-<p>Recall from our previous work that the <strong>order</strong> of an element $a$ modulo $p$ (where $\gcd(a,p) = 1$), denoted $\text{ord}_p(a)$, is the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{p}$. By Fermat's Little Theorem, the order always divides $p-1$.</p>
+<p>Let $p$ be a prime number. Recall from our previous work that the <strong>order</strong> of an integer $a$ modulo $p$ (where $\gcd(a,p) = 1$), denoted $\text{ord}_p(a)$, is the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{p}$. By Fermat's Little Theorem, the order always divides $p-1$.</p>
 <p>For example, modulo $7$: $\text{ord}_7(2) = 3$ and $\text{ord}_7(3) = 6$.</p>
 </div>
 
@@ -188,7 +188,7 @@ print(f"All units generated: {set(powers) == set(range(1, p))}")
 <p>The computational evidence above suggests that primitive roots always exist. This is indeed true, and was proven by Gauss.</p>
 <div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
     <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Existence of Primitive Roots)</p>
-    <p>For every prime $p$, there exists at least one primitive root modulo $p$. In fact, there are exactly $\varphi(p-1)$ primitive roots modulo $p$.</p>
+    <p>For every prime $p$, there exists a primitive root modulo $p$.</p>
 </div>
 <p>Here, $\varphi$ is Euler's totient function. For example:
 <ul class="indented-list">
