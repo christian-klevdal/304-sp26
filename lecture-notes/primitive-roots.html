@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primitive Roots Modulo $p$</title>
+    <style> body { margin: 60px;} </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        // Create separate linked groups for each section
+        sagecell.makeSagecell({
+            inputLocation: '.sage-section-0',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Primitive Roots Modulo $p$</h1>
+</div>
+
+<div class="markdown-cell">
+<h3>Recall: Order of an Element Modulo $p$</h3>
+<p>Recall from our previous work that the <strong>order</strong> of an element $a$ modulo $p$ (where $\gcd(a,p) = 1$), denoted $\text{ord}_p(a)$, is the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{p}$. By Fermat's Little Theorem, the order always divides $p-1$.</p>
+<p>For example, modulo $7$: $\text{ord}_7(2) = 3$ and $\text{ord}_7(3) = 6$.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Definition and Motivation</h3>
+<p>Notice in the example above that $3$ has order $6 = 7-1$ modulo $7$. Elements with this maximal order have a special name and important properties.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Primitive Root)</p>
+    <p>Let $p$ be a prime. An integer $a$ is called a <strong>primitive root modulo $p$</strong> if $\gcd(a, p) = 1$ and $\text{ord}_p(a) = p-1$.</p>
+</div>
+<p>In other words, $a$ is a primitive root modulo $p$ if the smallest positive power of $a$ that is congruent to $1$ modulo $p$ is $a^{p-1}$.</p>
+<p><strong>Why are primitive roots important?</strong></p>
+<p>If $a$ is a primitive root modulo $p$, then the powers $a^0, a^1, a^2, \ldots, a^{p-2}$ modulo $p$ generate all elements of $\mathbb{Z}_p^\times = \{1, 2, \ldots, p-1\}$. This means every non-zero element modulo $p$ can be expressed as a power of $a$, making primitive roots extremely useful for:
+<ul class="indented-list">
+<li>Cryptography (e.g., Diffie-Hellman key exchange)</li>
+<li>Understanding the multiplicative structure of $\mathbb{Z}_p^\times$</li>
+</ul>
+There are other reasons, but we will content ourselves with this for now.</p>
+<p><strong>Examples:</strong>
+<ul class="indented-list">
+<li><strong>$p = 7$:</strong> We saw that $3$ has order $6$, so $3$ is a primitive root modulo $7$. Also, $5$ is a primitive root modulo $7$ (you can verify: $5^1 = 5$, $5^2 = 4$, $5^3 = 6$, $5^4 = 2$, $5^5 = 3$, $5^6 = 1$ mod $7$).</li>
+<li><strong>$p = 11$:</strong> The number $2$ is a primitive root modulo $11$ because $\text{ord}_{11}(2) = 10$.</li>
+<li><strong>$p = 13$:</strong> The number $2$ is a primitive root modulo $13$ because $\text{ord}_{13}(2) = 12$.</li>
+</ul></p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Function to compute the order of an element modulo p
+def compute_order(a, p):
+    """
+    Compute the order of a modulo p.
+    Returns the smallest positive integer k such that a^k ≡ 1 (mod p).
+    """
+    if gcd(a, p) != 1:
+        return None  # Order is only defined when gcd(a,p) = 1
+    
+    order = 1
+    current = a % p
+    while current != 1:
+        current = (current * a) % p
+        order += 1
+    return order
+
+# Example: Compute orders modulo 7
+p = 7
+print(f"Orders of elements modulo {p}:")
+for a in range(1, p):
+    ord_a = compute_order(a, p)
+    print(f"ord_{p}({a}) = {ord_a}")
+    
+print(f"\nPrimitive roots modulo {p}:", [a for a in range(1, p) if compute_order(a, p) == p-1])
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Checking for Primitive Roots</h3>
+<p>Let's verify that primitive roots exist for several primes by checking computationally.</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Check for primitive roots for the first several primes
+primes_list = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+
+print("Primitive roots for various primes:\n")
+for p in primes_list:
+    primitive_roots = []
+    for a in range(2, p):  # Start from 2 (1 is trivial)
+        if compute_order(a, p) == p - 1:
+            primitive_roots.append(a)
+    print(f"p = {p:2d}: Primitive roots = {primitive_roots}")
+    
+print("\n✓ Every prime has at least one primitive root!")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Primitive Roots Generate All Units</h3>
+<p>A key property of primitive roots is that their powers generate all non-zero elements modulo $p$.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Proposition</p>
+    <p>If $a$ is a primitive root modulo $p$, then every element of $\mathbb{Z}_p^\times = \{1, 2, \ldots, p-1\}$ can be written as $a^k \pmod{p}$ for some $k \in \{0, 1, 2, \ldots, p-2\}$.</p>
+</div>
+<p>In other words, the set $\{a^0, a^1, a^2, \ldots, a^{p-2}\}$ modulo $p$ equals the set $\{1, 2, 3, \ldots, p-1\}$ (in some order).</p>
+<p>Let's verify this with an example:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Example: Show that 3 is a primitive root mod 7 and generates all units
+p = 7
+a = 3  # We know 3 is a primitive root mod 7
+
+print(f"Powers of {a} modulo {p}:\n")
+powers = []
+for k in range(p-1):
+    power = pow(a, k, p)
+    powers.append(power)
+    print(f"{a}^{k} ≡ {power} (mod {p})")
+
+print(f"\nSet of powers: {set(powers)}")
+print(f"Set of units mod {p}: {set(range(1, p))}")
+print(f"\nThese sets are equal: {set(powers) == set(range(1, p))}")
+
+# Try another example with a larger prime
+print("\n" + "="*50)
+p = 11
+a = 2  # 2 is a primitive root mod 11
+
+print(f"\nPowers of {a} modulo {p}:")
+powers = [pow(a, k, p) for k in range(p-1)]
+print(f"Powers: {powers}")
+print(f"Units mod {p}: {list(range(1, p))}")
+print(f"All units generated: {set(powers) == set(range(1, p))}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Existence Theorem</h3>
+<p>The computational evidence above suggests that primitive roots always exist. This is indeed true, and was proven by Gauss.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Existence of Primitive Roots)</p>
+    <p>For every prime $p$, there exists at least one primitive root modulo $p$. In fact, there are exactly $\varphi(p-1)$ primitive roots modulo $p$.</p>
+</div>
+<p>Here, $\varphi$ is Euler's totient function. For example:
+<ul class="indented-list">
+<li>$p = 7$: There are $\varphi(6) = \varphi(2 \cdot 3) = \varphi(2)\varphi(3) = 1 \cdot 2 = 2$ primitive roots mod $7$ (namely, $3$ and $5$).</li>
+<li>$p = 11$: There are $\varphi(10) = \varphi(2 \cdot 5) = \varphi(2)\varphi(5) = 1 \cdot 4 = 4$ primitive roots mod $11$ (namely, $2, 6, 7, 8$).</li>
+</ul></p>
+<p><strong>Proof Sketch:</strong> The proof uses properties of cyclic groups and polynomial equations over finite fields. The key insight is that the multiplicative group $\mathbb{Z}_p^\times$ is cyclic of order $p-1$, which guarantees the existence of elements of order $p-1$ (i.e., generators of the group). We will cover the full proof in class.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Practice Problems</h3>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Exercise 1</p>
+    <p>Show that $2$ is a primitive root modulo $13$ by computing all its powers modulo $13$.</p>
+</div>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Exercise 2</p>
+    <p>Find all primitive roots modulo $13$. Verify that there are $\varphi(12) = 4$ primitive roots.</p>
+</div>
+</div>
+
+
+<hr style="margin-top: 40px; margin-bottom: 20px;">
+<p style="text-align: center;">
+    <a href="lecture-notes.html" style="font-size: 1.1em;">← Back to Lecture Notes</a>
+</p>
+
+</body>
+</html>
