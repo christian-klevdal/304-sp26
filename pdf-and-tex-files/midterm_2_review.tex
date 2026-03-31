@@ -1,0 +1,89 @@
+\documentclass[12pt]{article}
+
+\include{mypreamble}
+
+\begin{document}
+
+\title{Midterm 2 Review Sheet}
+\date{}
+\maketitle
+
+%{\vspace{-2cm}}
+
+\textbf{Disclaimer:} This study sheet is intended for practice and is not necessarily exhaustive. It does not necessarily reflect the final difficulty of the exam, as actual exam problems may be harder or easier than those presented here. Please use this at your own risk, I have not checked every solution so there may be errors (please point out any that you find!).   
+
+\textbf{The Euler Phi Function}
+$\varphi(n)$ counts integers $1 \le k \le n$ such that $\gcd(k, n) = 1$. If $n = p_1^{a_1} \dots p_k^{a_k}$, then $\varphi(n) = \prod_{i = 1}^k p_i^{a_i - 1}(p_i - 1)$.
+
+\begin{enumerate}
+    \item Calculate $\varphi(72)$, $\varphi(125)$, and $\varphi(1001)$.
+    \item If $n > 2$, prove that $\varphi(n)$ is always even.
+\end{enumerate}
+
+\textbf{ Fermat's Little Theorem (FLT) \& Euler's Theorem}
+$a^p \equiv a \pmod{p}$ for prime $p$. $a^{\varphi(n)} \equiv 1 \pmod{n}$ if $\gcd(a, n) = 1$.
+
+\begin{enumerate}
+    \item Compute $5^{2026} \pmod{7}$ and $3^{162} \pmod{100}$.
+    \item Find the last two digits of $7^{402}$.
+    \item Provide an example where $a^{n-1} \equiv 1 \pmod{n}$ holds but $n$ is not prime.
+\end{enumerate}
+
+\textbf{Congruences and the Chinese Remainder Theorem (CRT)}
+If $m_1, \dots, m_k$ are pairwise relatively prime, the system $x \equiv a_i \pmod{m_i}$ has a unique solution modulo $M = m_1 \dots m_k$.
+
+\begin{enumerate}
+    \item Solve the linear congruence $12x \equiv 18 \pmod{30}$. List all distinct solutions modulo 30.
+    \item Find the smallest positive integer $x$ such that $x \equiv 3 \pmod{11}$, $x \equiv 2 \pmod{5}$.
+    \item Find all integers $x$ such that $x^2 \equiv 1 \pmod{15}$ using CRT.
+\end{enumerate}
+
+\textbf{ Order Modulo $n$ \& Primitive Roots}
+$\text{ord}_n(a)$ is the smallest $k > 0$ such that $a^k \equiv 1 \pmod{n}$.
+
+\begin{enumerate}
+    \item Find $\text{ord}_{17}(3)$. Use this to determine if 3 is a primitive root modulo 17.
+    \item Find the number of primitive roots modulo 19.
+    \item Let $\text{ord}_n(a) = d$. Prove that $\text{ord}_n(a^j) = d / \gcd(j, d)$.
+\end{enumerate}
+
+\textbf{ Binary Exponentiation}
+Computing $a^k \pmod{n}$ in $O(\log k)$ steps by repeatedly squaring the base.
+
+\begin{enumerate}
+    \item Compute $2^{25} \pmod{11}$ using the square-and-multiply algorithm. Track each squaring and multiplication step.
+    \item How many total multiplications (including squarings) are required to compute $a^{255} \pmod{n}$?
+\end{enumerate}
+
+\textbf{ Primality Testing}
+For $n-1 = 2^s \cdot t$, $n$ passes the Miller-Rabin test for base $a$ if $a^t \equiv 1 \pmod{n}$ or $a^{2^r t} \equiv -1 \pmod{n}$ for some $0 \le r < s$.
+
+\begin{enumerate}
+    \item Use the Miller-Rabin test on $n=21$ with base $a=8$. 
+    \item Use the Miller-Rabin test on $n=13$ with base $a=2$.
+    \item If the Miller-Rabin test returns that $n$ is composite for a specific base $a$, is $n$ definitely composite? If the test returns that $n$ is probably prime, is $n$ definitely prime? Explain.
+    \item Define a Carmichael number and explain why the Fermat primality test fails to identify them as composite.
+\end{enumerate}
+
+\textbf{ RSA Cryptosystem}
+$n=pq$, $ed \equiv 1 \pmod{\varphi(n)}$. Encryption: $E(m) = m^e \pmod{n}$. Decryption: $D(c) = c^d \pmod{n}$.
+
+\begin{enumerate}
+    \item Let $p=7, q=11$, and $e=7$. Find the private key $d$. Encrypt the message $m=2$.
+    \item Let $n=35$ and $e=5$. If you intercept the ciphertext $c=10$, determine the original message $m$.
+    \item Given $(n, e) = (91, 5)$, find the decryption exponent $d$.
+    \item Suppose you know $n=pq$ and $\varphi(n)$. Describe how to recover the specific primes $p$ and $q$.
+\end{enumerate}
+
+\textbf{ Algorithmic Runtime}
+Efficiency of operations as the input size (number of digits or bits) increases.
+
+\begin{enumerate}
+    \item Computing $\gcd(a, b)$ using the Euclidean Algorithm, in terms of the number of digits in $a$ and $b$.
+    \item Factoring an integer $n$ into primes, in terms of $n$.
+    \item Computing the order $\text{ord}_n(a)$, in terms of $n$.
+    \item Computing $a^k \pmod{n}$ for very large $k$, in terms of the number of bits in $k$.
+    \item Computing $\varphi(n)$ given the prime factorization of $n$, versus computing $\varphi(n)$ without the factorization.
+\end{enumerate}
+
+\end{document}
