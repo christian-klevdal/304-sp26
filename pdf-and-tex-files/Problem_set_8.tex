@@ -1,0 +1,62 @@
+\documentclass[12pt]{exam}
+
+\include{mypreamble}
+
+\begin{document}
+
+\title{Problem Set 8}
+\date{Due: April 13th, 5pm}
+\maketitle
+
+
+
+\section{Formal proofs}
+For each problem in this section, you must give a complete and rigorous proof. Your arguments should be clear, logically ordered, and written in full sentences.
+
+In particular, state all assumptions explicitly and define all notation. Justify every nontrivial step. 
+
+\begin{questions}
+\question[1] Let $p$ be an odd prime. Compute the value of the Legendre symbol $\left(\frac{-1}{p}\right)$ as a formula depending on $p \pmod{4}$. Prove your formula is correct. 
+
+\question[1] Let $a, b \in \mathbb{R}^+$. Prove that the number of integer lattice points $(x, y)$ contained strictly inside the the rectangle with corners $(0,0)$ and $(a,b)$ is given by $\lfloor a \rfloor \lfloor b \rfloor$ for the number of points in the region $1 \le x \le a, 1 \le y \le b$ when $(a, b)$ is not an integer lattice point.
+
+\question[1] Let $p$ be an odd prime and let $a, b$ be integers. Prove using the definition that the Legendre symbol modulo $p$ is multiplicative, that is,
+$$\left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right).$$
+(To receive any points, you must provide a complete proof directly from the definition, and not using any other properties of the Legendre symbol such as Euler's Criterion or Gauss's Lemma.)
+
+\section{Demonstrations}
+\fullwidth{For problems in this section, you still need to give complete mathematical reasoning to support your answers. I should be able to follow and understand your work, but it doesn't have to be organized into a formal proof. }
+
+\question[1] Let $p$ be an odd prime. Using Gauss's Lemma, compute the value of the Legendre symbol $\left(\frac{2}{p}\right)$. (Your answer should be in terms of $p \pmod{8}$.)
+
+\question[1] The \emph{Jacobi symbol} generalizes the Legendre symbol to odd composite moduli. Let $n > 1$ be an odd integer with prime factorization $n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$, and let $a$ be any integer. The Jacobi symbol $\left(\frac{a}{n}\right)$ is defined as
+$$\left(\frac{a}{n}\right) = \left(\frac{a}{p_1}\right)^{a_1} \left(\frac{a}{p_2}\right)^{a_2} \cdots \left(\frac{a}{p_k}\right)^{a_k},$$
+where the factors on the right are Legendre symbols. By convention, $\left(\frac{a}{1}\right) = 1$.
+
+\begin{parts}
+\part Show that the Jacobi symbol is multiplicative in the top, that is, $\left(\frac{ab}{n}\right) = \left(\frac{a}{n}\right)\left(\frac{b}{n}\right)$.
+
+\part Show that the Jacobi symbol is multiplicative in the bottom, that is, if $m$ and $n$ are odd positive integers, then $\left(\frac{a}{mn}\right) = \left(\frac{a}{m}\right)\left(\frac{a}{n}\right)$.
+
+\part Show that $\left(\frac{a}{n}\right) = 0$ if and only if $\gcd(a, n) > 1$.
+\end{parts} 
+
+
+\question[1] Use the Law of Quadratic Reciprocity and properties of the Jacobi symbol to compute the following. Show all steps in your computation.
+\begin{parts}
+    \part $\left(\frac{105}{48379}\right)$
+    \part $\left(\frac{219}{383}\right)$
+    \part $\left(\frac{6244334}{567617}\right)$
+\end{parts}
+
+\question[1] For $p = 11$, compute the Legendre symbol $\left(\frac{a}{11}\right)$ for all $a \in \{2, 5, 8, 9\}$ using three different methods:
+\begin{parts}
+    \part By definition (checking if $a$ is a quadratic residue by finding all squares modulo 11).
+    \part Using Euler's Criterion.
+    \part Using Gauss's Lemma (compute the set $S(a, 11)$ for each $a$ and compute $\mu(a,11)$).
+\end{parts}
+
+
+
+\end{questions}
+\end{document}

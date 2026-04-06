@@ -1,0 +1,125 @@
+\documentclass[12pt]{exam}
+
+\include{mypreamble}
+
+
+
+% Here's where you edit the Class, Exam, Date, etc.
+\newcommand{\class}{Math 304}
+\newcommand{\term}{Spring 2026}
+\newcommand{\examnum}{Midterm 2}
+\newcommand{\examdate}{\, }
+\newcommand{\timelimit}{50 minutes}
+
+%\renewcommand{\%}{\texttt{\%}}
+\parindent 0ex
+
+
+\begin{document}
+
+% These commands set up the running header on the top of the exam pages
+\pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{\class}{\examnum\ - Page \thepage\ of \numpages}{\examdate}
+\runningheadrule
+
+\begin{flushright}
+\begin{tabular}{p{2.8in} r l}
+\textbf{\class} & \textbf{Name (Print):} & \makebox[2in]{\hrulefill}\\
+\textbf{\term} &&\\
+\textbf{\examnum} & ID: & \makebox[2in]{\hrulefill} \\
+\textbf{\examdate} &&\\
+\textbf{Time Limit: \timelimit} & \emph{Score:} & \makebox[0.5in]{\hrulefill}
+\end{tabular}\\
+\end{flushright}
+\rule[1ex]{\textwidth}{.1pt}
+
+
+This exam contains \numpages\ pages (including this cover page) and
+\numquestions\ problems.  Enter
+all requested information on the top of this page. It contains \numpoints\ points. \\
+
+This test is closed book and closed note. You are required to show all of your work on each problem on this exam, and provide explanations of your reasoning where asked. The following rules apply:\\
+
+\begin{itemize}
+
+\item Please show all of your work as partial credit will be given where appropriate, and there 
+may be no credit given for problems where there is no work shown.
+
+\item For problems that ask you to prove something, you must give a complete proof. Your arguments should be clear, logically ordered, and justification must be given for each non-trivial step. 
+
+\item In proof problems, please \textbf{state any results you are using clearly}.
+
+%\item You may \textbf{not} use scratch paper. Ample space has been supplied for each problem, and you must complete the problem in the given space (you do not have to use all of the space given). 
+
+\end{itemize}
+
+\vspace{2cm}
+
+
+\textbf{Notation:}
+\begin{itemize}
+    \item If $n \in \mathbb{Z}_{>0}$ and $a,b \in \ZZ$ then $a \equiv b \pmod{n}$ means that $n | (b-a)$.
+	\item If $n \in \mathbb{Z}_{>0}$ then $\mathbb{Z}_n = \{0,1,\ldots, n-1\}$ is the set of integers modulo $n$. 
+    \item If $n \in \mathbb{Z}_{>0}$ and $a\in \ZZ$ we write $a\%n$ for the remainder of the Euclidean division of $a$ by $n$. This is unique element of $\mathbb{Z}_n$ such that $a \equiv a\% n \pmod{n}$. 
+    \item If $n \in \mathbb{Z}_{>0}$ and $\gcd(a,n) = 1$, then $\text{ord}_n(a)$ is the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{n}$.
+\end{itemize}
+
+
+\begin{questions}
+
+\addpoints
+
+\newpage
+\question[10] % 1: Exponentiation
+\begin{parts}
+    \part Find $5^{9603} \pmod{360}$.
+    \vfill
+    \part How many multiplications (including squarings) need to be performed to find $a^{265} \pmod{n}$ according to the binary exponentiation (square-and-multiply) algorithm?
+    \vfill
+\end{parts}
+
+\newpage
+\question[10] % 2: Primitive Roots and Order
+\begin{parts}
+    \part Find all primitive roots modulo $11$.
+    \vfill
+    \part If $\text{ord}_n(a) = 60$, what is $\text{ord}_n(a^{42})$?
+    \vfill
+\end{parts}
+
+\newpage
+\question[5] % 3: CRT
+Find all solutions $x$ to the following system of congruences:
+\begin{align*}
+    x &\equiv 2 \pmod{9} \\
+    x &\equiv 4 \pmod{7}
+\end{align*}
+If no solution exists, explain why.
+
+\vfill
+
+\newpage
+\question[5] % 4: Miller-Rabin
+Perform one iteration of the Miller-Rabin primality test on $n = 25$ using the base $a = 7$. State whether $25$ is a strong probably prime or if $7$ is a witness for compositeness.
+
+\vfill
+
+\newpage
+\question[10] % 5: RSA
+An RSA public key is $(n, e) = (55, 3)$. 
+\begin{parts}
+    \part Find the private exponent $d$.
+    \vfill
+    \part Decrypt the ciphertext $c = 4$.
+    \vfill
+\end{parts}
+
+\newpage
+\question[10] % 6: Proof
+Let $n > 1$ and $\gcd(a, n) = 1$. Suppose $d = \text{ord}_n(a)$. Prove that if $a^k \equiv 1 \pmod{n}$, then $d \mid k$. 
+
+\vfill
+
+\end{questions}
+\end{document}

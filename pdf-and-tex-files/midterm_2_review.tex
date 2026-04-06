@@ -56,7 +56,7 @@ Computing $a^k \pmod{n}$ in $O(\log k)$ steps by repeatedly squaring the base.
 \end{enumerate}
 
 \textbf{ Primality Testing}
-For $n-1 = 2^s \cdot t$, $n$ passes the Miller-Rabin test for base $a$ if $a^t \equiv 1 \pmod{n}$ or $a^{2^r t} \equiv -1 \pmod{n}$ for some $0 \le r < s$.
+For $n-1 = 2^s \cdot t$, $n$ passes the Miller-Rabin test for base $a$ if $a^t \equiv 1 \pmod{n}$ or $a^{2^r t} \equiv -1 \pmod{n}$ for some $0 \le r < s$. If $n$ passes MR for base $a$, we say that $n$ is a probable prime. If $n$ fails MR for base $a$, we say $n$ is composite. 
 
 \begin{enumerate}
     \item Use the Miller-Rabin test on $n=21$ with base $a=8$. 

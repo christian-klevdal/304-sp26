@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Residues, Legendre Symbols, and Gauss's Lemma</title>
+    <style> body { margin: 60px;} </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- SageCell JavaScript -->
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>
+        // Create separate linked groups for each section
+        sagecell.makeSagecell({
+            inputLocation: '.sage-section-0',
+            evalButtonText: 'Run',
+            languages: ['sage'],
+            hide: ['permalink'],
+            linked: true
+        });
+    </script>
+    
+    <!-- MathJax for TeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .markdown-cell {
+            margin: 20px 0;
+        }
+        .sage-cell {
+            margin: 20px 0;
+        }
+        /* Header styling - make h1 stand out with boxes */
+        .markdown-cell h1 {
+            background-color: #f0f4f8;
+            border: 2px solid #003366;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #003366;
+        }
+        /* First h1 shouldn't have extra top margin */
+        .markdown-cell:first-child h1:first-child {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="markdown-cell">
+<h1>Quadratic Residues, Legendre Symbols, and Gauss's Lemma</h1>
+<p>This lecture introduces quadratic residues modulo primes, the Legendre symbol as a tool for determining when a number is a square, and Gauss's Lemma as a method for computing the Legendre symbol.</p>
+</div>
+
+<div class="markdown-cell">
+<h3>Quadratic Residues</h3>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Quadratic Residue)</p>
+    <p>Let $n$ be a positive integer and $a$ be an integer. We say that $a$ is a <em>quadratic residue modulo $n$</em> if there exists an integer $x$ such that 
+    $$x^2 \equiv a \pmod{n}.$$
+    If no such $x$ exists, then $a$ is called a <em>quadratic non-residue modulo $n$</em>.</p>
+</div>
+<p>In other words, $a$ is a quadratic residue modulo $n$ if $a$ is a "square" modulo $n$.</p>
+<p><strong>Examples:</strong></p>
+<ul class="indented-list">
+<li><em>Modulo 7:</em> The squares modulo 7 are:</li>
+</ul>
+  - $1^2 \equiv 1 \pmod{7}$
+  - $2^2 \equiv 4 \pmod{7}$
+  - $3^2 \equiv 9 \equiv 2 \pmod{7}$
+  - $4^2 \equiv 16 \equiv 2 \pmod{7}$
+  - $5^2 \equiv 25 \equiv 4 \pmod{7}$
+  - $6^2 \equiv 36 \equiv 1 \pmod{7}$
+<p>So the quadratic residues modulo 7 are $\{1, 2, 4\}$, and the non-residues are $\{3, 5, 6\}$.</p>
+<ul class="indented-list">
+<li><em>Modulo 11:</em> We have $1^2 = 1$, $2^2 = 4$, $3^2 = 9$, $4^2 = 5$, $5^2 = 3$ (all mod 11). So the quadratic residues modulo 11 are $\{1, 3, 4, 5, 9\}$.</li>
+</ul>
+<p>Let's verify these computationally:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Verify quadratic residues modulo 7
+p = 7
+print(f"Quadratic residues modulo {p}:")
+residues = set()
+for x in range(1, p):
+    residue = (x^2) % p
+    residues.add(residue)
+    print(f"{x}^2 ≡ {residue} (mod {p})")
+
+print(f"\nQuadratic residues mod {p}: {sorted(residues)}")
+non_residues = set(range(1, p)) - residues
+print(f"Quadratic non-residues mod {p}: {sorted(non_residues)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<p>Here's a function to compute all quadratic residues modulo any integer $n$:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+def quadratic_residues(n):
+    """
+    Return the set of quadratic residues modulo n.
+    """
+    residues = set()
+    for x in range(n):
+        residues.add((x^2) % n)
+    return sorted(residues)
+
+# Test with various moduli
+for n in [5, 11, 13]:
+    qr = quadratic_residues(n)
+    print(f"Quadratic residues mod {n}: {qr}")
+    print(f"Number of QR mod {n}: {len(qr)}\n")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>The Legendre Symbol</h3>
+<p>To work efficiently with quadratic residues modulo a prime $p$, we introduce the Legendre symbol.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition (Legendre Symbol)</p>
+    <p>Let $p$ be an odd prime and $a$ be an integer. The <em>Legendre symbol</em> $\left( \frac{a}{p} \right)$ is defined as:
+    $$\left( \frac{a}{p} \right) = \begin{cases}
+    1 & \text{if } a \text{ is a quadratic residue modulo } p \text{ and } a \not\equiv 0 \pmod{p}, \\
+    -1 & \text{if } a \text{ is a quadratic non-residue modulo } p, \\
+    0 & \text{if } a \equiv 0 \pmod{p}.
+    \end{cases}$$
+    </p>
+</div>
+<p><em>Important Note:</em> The Legendre symbol $\left( \frac{a}{p} \right)$ looks like a fraction, but it is <em>not</em> a fraction! It's simply notation for indicating whether $a$ is a square modulo $p$.</p>
+<p><strong>Examples:</strong>
+<ul class="indented-list">
+<li>$\left( \frac{1}{7} \right) = 1$ because $1 \equiv 1^2 \pmod{7}$</li>
+<li>$\left( \frac{2}{7} \right) = 1$ because $2 \equiv 3^2 \pmod{7}$</li>
+<li>$\left( \frac{3}{7} \right) = -1$ because $3$ is not a quadratic residue modulo $7$</li>
+<li>$\left( \frac{4}{7} \right) = 1$ because $4 \equiv 2^2 \pmod{7}$</li>
+</ul></p>
+</div>
+
+<div class="markdown-cell">
+<h4>Properties of the Legendre Symbol</h4>
+<p>The Legendre symbol has several important properties that make it useful for computations:</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Multiplicativity)</p>
+    <p>Let $p$ be an odd prime and $a, b$ be integers. Then
+    $$\left( \frac{ab}{p} \right) = \left( \frac{a}{p} \right) \left( \frac{b}{p} \right).$$
+    </p>
+</div>
+<p>This means that the Legendre symbol is <em>multiplicative</em>. For example:
+<ul class="indented-list">
+<li>$\left( \frac{6}{7} \right) = \left( \frac{2 \cdot 3}{7} \right) = \left( \frac{2}{7} \right) \left( \frac{3}{7} \right) = (1)(-1) = -1$</li>
+</ul></p>
+<p>Let's compute some Legendre symbols:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+def legendre_symbol(a, p):
+    """
+    Compute the Legendre symbol (a/p) by checking if a is a QR mod p.
+    """
+    a = a % p
+    if a == 0:
+        return 0
+    
+    # Check if a is a quadratic residue
+    for x in range(1, p):
+        if (x^2) % p == a:
+            return 1
+    return -1
+
+# Compute Legendre symbols for various values
+p = 11
+print(f"Legendre symbols modulo {p}:")
+for a in range(1, p):
+    symbol = legendre_symbol(a, p)
+    print(f"({a}/{p}) = {symbol:2d}")
+
+print(f"\nVerify multiplicativity: (6/11) = (2/11) * (3/11)")
+print(f"(6/11) = {legendre_symbol(6, 11)}")
+print(f"(2/11) * (3/11) = {legendre_symbol(2, 11)} * {legendre_symbol(3, 11)} = {legendre_symbol(2, 11) * legendre_symbol(3, 11)}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Euler's Criterion</h3>
+<p>While the definition of the Legendre symbol is straightforward, checking all squares to determine if $a$ is a quadratic residue is inefficient. Euler's Criterion provides a much faster method.</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Euler's Criterion)</p>
+    <p>Let $p$ be an odd prime and $a$ be an integer with $\gcd(a, p) = 1$. Then
+    $$\left( \frac{a}{p} \right) \equiv a^{\frac{p-1}{2}} \pmod{p}.$$
+    </p>
+</div>
+<p>This gives us a computational method: to determine if $a$ is a quadratic residue modulo $p$, simply compute $a^{(p-1)/2} \bmod p$:
+<ul class="indented-list">
+<li>If the result is $1$, then $a$ is a quadratic residue</li>
+<li>If the result is $-1 \equiv p-1 \pmod{p}$, then $a$ is a non-residue</li>
+</ul></p>
+<p><em>Why does this work?</em> By Fermat's Little Theorem, $a^{p-1} \equiv 1 \pmod{p}$, so $a^{(p-1)/2}$ is a square root of $1$ modulo $p$. The only square roots of $1$ modulo $p$ are $\pm 1$.</p>
+<p>Let's verify Euler's Criterion:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Verify Euler's Criterion
+def legendre_euler(a, p):
+    """
+    Compute Legendre symbol using Euler's Criterion.
+    """
+    result = power_mod(a, (p-1)//2, p)
+    if result == p - 1:
+        return -1
+    else:
+        return result
+
+# Test Euler's Criterion against our previous method
+p = 13
+print(f"Verifying Euler's Criterion for p = {p}:\n")
+print("a  | (a/p) by definition | a^((p-1)/2) mod p | Match?")
+print("-" * 60)
+for a in range(1, p):
+    symbol_def = legendre_symbol(a, p)
+    symbol_euler = legendre_euler(a, p)
+    match = "✓" if symbol_def == symbol_euler else "✗"
+    print(f"{a:2d} | {symbol_def:20d} | {symbol_euler:17d} | {match}")
+
+print(f"\n✓ Euler's Criterion verified for all a from 1 to {p-1}!")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h3>Gauss's Lemma</h3>
+<p>Gauss's Lemma provides another method for computing the Legendre symbol that's based on counting negative residues in a specific set.</p>
+<h4>The Set $S(a,p)$</h4>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Definition</p>
+    <p>Let $p$ be an odd prime and $a$ be an integer with $\gcd(a, p) = 1$. Define
+    $$S(a, p) = \left\{a \bmod_{\pm} p, \, 2a \bmod_{\pm} p, \, 3a \bmod_{\pm} p, \, \ldots, \, \frac{p-1}{2}a \bmod_{\pm} p\right\}$$
+    where $x \bmod_{\pm} p$ denotes the unique integer in the range $\left[-\frac{p}{2}, \frac{p}{2}\right]$ that is congruent to $x$ modulo $p$.</p>
+</div>
+<p>In other words, we take the multiples $a, 2a, 3a, \ldots, \frac{p-1}{2}a$ and reduce them modulo $p$ to lie in the symmetric interval around zero.</p>
+<p><strong>Example:</strong> Let $p = 7$ and $a = 3$. Then:
+<ul class="indented-list">
+<li>$1 \cdot 3 = 3 \equiv 3 \pmod{7}$ → in range $[-3, 3]$: $3$</li>
+<li>$2 \cdot 3 = 6 \equiv 6 \equiv -1 \pmod{7}$ → in range $[-3, 3]$: $-1$</li>
+<li>$3 \cdot 3 = 9 \equiv 2 \pmod{7}$ → in range $[-3, 3]$: $2$</li>
+</ul></p>
+<p>So $S(3, 7) = \{3, -1, 2\}$.</p>
+<p>Let's write code to compute $S(a, p)$:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+def compute_S(a, p):
+    """
+    Compute the set S(a, p) as defined in Gauss's Lemma.
+    Returns elements reduced to the range [-(p-1)/2, (p-1)/2].
+    """
+    S = []
+    for k in range(1, (p+1)//2):
+        # Compute k*a mod p
+        val = (k * a) % p
+        # Reduce to symmetric range
+        if val > p // 2:
+            val = val - p
+        S.append(val)
+    return S
+
+# Example: compute S(3, 7)
+a, p = 3, 7
+S = compute_S(a, p)
+print(f"S({a}, {p}) = {S}")
+
+# Count negative elements
+mu = sum(1 for x in S if x < 0)
+print(f"μ({a}, {p}) = {mu} (number of negative elements)")
+
+# Try a few more examples
+print("\nMore examples:")
+for a, p in [(2, 7), (5, 11), (3, 13)]:
+    S = compute_S(a, p)
+    mu = sum(1 for x in S if x < 0)
+    print(f"S({a}, {p}) = {S}, μ = {mu}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h4>Exploration: Investigate $S(a,p)$</h4>
+<p><em>Exploratory Problem:</em> Investigate the structure of $S(a,p)$ for various values of $a$ and $p$.</p>
+<ul class="indented-list">
+<li>What patterns do you notice?</li>
+<li>How does the number of negative elements $\mu(a,p)$ relate to whether $a$ is a quadratic residue?</li>
+<li>Try computing $S(a,p)$ for several different primes and values of $a$.</li>
+</ul>
+<p>Use the cell below to explore:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Explore S(a, p) for various a and p
+# Modify the values below to investigate patterns
+
+a = 2
+p = 11
+
+S = compute_S(a, p)
+mu = sum(1 for x in S if x < 0)
+legendre = legendre_euler(a, p)
+
+print(f"For a = {a}, p = {p}:")
+print(f"S({a}, {p}) = {S}")
+print(f"μ({a}, {p}) = {mu}")
+print(f"(-1)^μ = {(-1)^mu}")
+print(f"Legendre symbol ({a}/{p}) = {legendre}")
+print(f"\nDo they match? {(-1)^mu == legendre}")
+</script>
+</div>
+
+<div class="markdown-cell">
+<h4>Statement of Gauss's Lemma</h4>
+<p>The pattern you may have noticed in the exploration above is formalized by Gauss's Lemma:</p>
+<div class="theorem" style="border: 1px solid #ccc; padding: 10px; margin: 5px 0; background-color: #f9f9f9; border-radius: 5px; overflow: hidden;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">Theorem (Gauss's Lemma)</p>
+    <p>Let $p$ be an odd prime and $a$ be an integer with $\gcd(a, p) = 1$. Let $\mu(a, p)$ be the number of negative elements in $S(a, p)$. Then
+    $$\left( \frac{a}{p} \right) = (-1)^{\mu(a,p)}.$$
+    </p>
+</div>
+<p>In other words:
+<ul class="indented-list">
+<li>If $\mu(a,p)$ is <em>even</em>, then $\left( \frac{a}{p} \right) = 1$ (so $a$ is a quadratic residue)</li>
+<li>If $\mu(a,p)$ is <em>odd</em>, then $\left( \frac{a}{p} \right) = -1$ (so $a$ is a non-residue)</li>
+</ul></p>
+<p><strong>Example:</strong> We computed $S(3, 7) = \{3, -1, 2\}$, which has $\mu(3, 7) = 1$ negative element. Thus:
+$$\left( \frac{3}{7} \right) = (-1)^1 = -1$$
+So $3$ is a quadratic non-residue modulo $7$.</p>
+<p>Let's verify Gauss's Lemma for several values:</p>
+</div>
+
+<div class="sage-cell sage-section-0">
+<script type="text/x-sage">
+# Verify Gauss's Lemma
+def legendre_gauss(a, p):
+    """
+    Compute Legendre symbol using Gauss's Lemma.
+    """
+    S = compute_S(a, p)
+    mu = sum(1 for x in S if x < 0)
+    return (-1)^mu
+
+# Verify Gauss's Lemma against Euler's Criterion
+p = 17
+print(f"Verifying Gauss's Lemma for p = {p}:\n")
+print("a  | μ(a,p) | (-1)^μ | (a/p) Euler | Match?")
+print("-" * 55)
+for a in range(1, min(p, 12)):  # Test first few values
+    S = compute_S(a, p)
+    mu = sum(1 for x in S if x < 0)
+    gauss = legendre_gauss(a, p)
+    euler = legendre_euler(a, p)
+    match = "✓" if gauss == euler else "✗"
+    print(f"{a:2d} | {mu:6d} | {gauss:6d} | {euler:11d} | {match}")
+
+print(f"\n✓ Gauss's Lemma verified!")
+</script>
+</div>
+
+
+<hr style="margin-top: 40px; margin-bottom: 20px;">
+<p style="text-align: center;">
+    <a href="lecture-notes.html" style="font-size: 1.1em;">← Back to Lecture Notes</a>
+</p>
+
+</body>
+</html>
